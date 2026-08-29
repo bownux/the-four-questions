@@ -361,6 +361,34 @@ the commands, not just their output. The commands are where the contracts
 live, and contracts are the only thing that turns an observation about the
 past into a claim about the moment of action.
 
+
+
+Worked TOCTOU (captured live). Two writers; the first checks absence, sleeps
+(the gap), then writes; the second writes during the gap:
+
+```bash
+rm -f slot
+( if [ ! -e slot ]; then sleep 0.2; echo winner > slot; echo "write_status:$?"; fi ) &
+sleep 0.05
+echo racer > slot
+wait
+echo "final:$(cat slot)"
+```
+
+```output
+write_status:0
+final:winner
+```
+
+Both sides can show exit 0. The final bytes are `racer`, not `winner` — the
+check was true when it ran and false when it mattered. A transcript that prints
+only the checker's `write_status:0` **supports** "the write syscall succeeded"
+and is **insufficient** for "the write was safe against concurrent creators."
+The atomic form of the same intent is a single contract that closes the gap
+(`set -o noclobber` with `>` under race, `mv -n`, exclusive create flags): one
+status that means check-and-act together. Without that contract in the command
+line, price the sequence as hope under concurrency — not as proof of safety.
+
 ## Instants, durations, and the output that spans a window
 
 Every transcript in this chapter so far has been treated as a photograph,

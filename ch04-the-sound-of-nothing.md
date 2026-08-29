@@ -152,6 +152,7 @@ mkdir work && cd work
 mkdir -p vault
 touch vault/secrets.env
 chmod 000 vault
+# requires non-root: as root, find traverses and the lesson disappears
 find vault -name "*.env" 2>/dev/null
 echo "quiet run exit: $?"
 find vault -name "*.env"
@@ -164,6 +165,8 @@ quiet run exit: 1
 find: 'vault': Permission denied
 loud run exit:  1
 ```
+Replication condition: **non-root**. This obstruction demo is part of the book's gate-style contract (`PATH=/usr/bin:/bin`, non-root). Run as root and `find` traverses `chmod 000` directories successfully, exit 0, and the calm silence the lesson needs does not appear — the transcript would then contradict the section. If your shell is root, drop privileges before reproducing, or treat a successful traversal as a different world than the one this listing measures.
+
 
 The file the search is looking for *exists* — the listing creates it —
 and the quiet run prints nothing at all. Two suppressions stack: the

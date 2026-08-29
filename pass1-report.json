@@ -8,16 +8,16 @@
   "warn_count": 0,
   "findings": [],
   "measured": {
-    "body_words_measured": 25441,
-    "print_equivalent_pages": 85,
+    "body_words_measured": 26042,
+    "print_equivalent_pages": 87,
     "chapter_words": {
-      "ch01-the-verdict-channel.md": 3184,
-      "ch02-what-the-number-cannot-say.md": 3380,
-      "ch03-the-commentary-channel.md": 3084,
-      "ch04-the-sound-of-nothing.md": 3154,
-      "ch05-shape-before-content.md": 3027,
+      "ch01-the-verdict-channel.md": 3358,
+      "ch02-what-the-number-cannot-say.md": 3476,
+      "ch03-the-commentary-channel.md": 3144,
+      "ch04-the-sound-of-nothing.md": 3222,
+      "ch05-shape-before-content.md": 3108,
       "ch06-claims-against-evidence.md": 3121,
-      "ch07-time-order-and-the-moving-world.md": 3188,
+      "ch07-time-order-and-the-moving-world.md": 3310,
       "ch08-judging-under-uncertainty.md": 3303
     },
     "padding_metrics": {
@@ -48,18 +48,18 @@
         },
         "ch07-time-order-and-the-moving-world.md": {
           "scaffold_share": 0.0,
-          "bullet_share": 0.064
+          "bullet_share": 0.062
         },
         "ch08-judging-under-uncertainty.md": {
           "scaffold_share": 0.0,
           "bullet_share": 0.078
         }
       },
-      "compression_ratio": 0.3455,
-      "near_duplicate_paragraph_share": 0.0374,
+      "compression_ratio": 0.3468,
+      "near_duplicate_paragraph_share": 0.0365,
       "top_ngram": {
         "ngram": "*draft status: author draft; human verification",
-        "share": 0.0003
+        "share": 0.00029
       }
     }
   }

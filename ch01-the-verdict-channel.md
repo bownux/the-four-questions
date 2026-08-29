@@ -54,11 +54,12 @@ process exits normally, it hands the kernel a status; the shell that awaits
 it receives that status and exposes the low eight bits — an integer from 0 to
 255 — in the special parameter `$?`. That is the entire channel: one byte,
 set by the dying process itself (or, as you will see, synthesized by the
-shell when the process did not get to choose), overwritten by the very next
-command. The overwriting matters more than it seems. A transcript shows you
-`$?` only if its author thought to print it, and only if it was printed
-*immediately* — an `echo $?` that follows some intervening command reports
-that command's verdict, not the one under discussion. When you judge a
+shell when the process did not get to choose), set again by every subsequent command. Expansion of `$?` happens *before*
+the next command runs, so `echo "exit: $?"` printed immediately after a
+command does capture that command's status correctly. What fails is delay:
+any intervening command — even a no-op you forgot about — replaces the value
+before you expand it. A transcript shows you `$?` only if its author thought
+to print it, and only if nothing else ran first. When you judge a
 transcript, the first thing to establish is whether the verdict channel was
 captured at all, and for which command. A transcript that never shows a
 status has not lost its verdict — the shell knew it — but the *record* has,
@@ -216,6 +217,21 @@ memory story. SIGSEGV is 11; a 139 is a crash. The reader who knows the
 arithmetic can name the signal from the status; the reader who doesn't sees
 "143" and writes "the command failed with an unusual error code," which is a
 sentence that has appeared in more incident reports than anyone would like.
+
+Disambiguation rule for the upper band. The values 126, 127, and 128+N are
+*conventional* shell reports of how a process died or failed to start — not a
+private namespace the shell owns exclusively. Tools may exit with the same
+integers of their own accord: `timeout` documents 124; `curl` documents 126/127
+for option and protocol problems; any program can `exit 143`. A transcript that
+shows only `terminated: 143` therefore cannot, by itself, distinguish SIGTERM
+from a voluntary `exit 143`. Treat the band as a *hypothesis about the shell's
+report*, not a proof of signal delivery: raise confidence only when the
+instrument line (or a sibling observation) confirms who set the status — the
+shell's "command not found" path, a known timeout wrapper, a kernel OOM mark
+in dmesg, a process-table absence after a kill. Absent that bridge, cap the
+verdict short of a confident diagnosis and prefer **insufficient** on claims
+that name a specific signal or OOM.
+
 
 Two honesty notes on the band, conditions carried in the sentence per this
 press's habit. First, the band is shell convention, not law: a tool is free

@@ -19,12 +19,13 @@
 
 This book is for a language-model agent that reads command output — and,
 second, for the human who supervises such agents. It assumes shell literacy
-and no machine-learning background. Its claim is narrow and testable: a
-curriculum of worked transcript misreadings, taught through the
-four-question routine — status, stderr, shape, labeled content — measurably
-improves a reader-model's accuracy and calibration on held-out
-transcript-judgment cases. The eval ships with the book, and its design is
-shown to the reader in chapter 8 rather than kept from them.
+and no machine-learning background. Its claim is narrow and testable: a curriculum of worked transcript
+misreadings, taught through the four-question routine — status, stderr,
+shape, labeled content — is designed to improve a reader-model's accuracy
+and calibration on held-out transcript-judgment cases. At submission that
+improvement is **proposed and testable, not yet measured**; the eval ships
+with the book, its design is shown to the reader in chapter 8, and the
+press's judge — not the author — grades the exam in the open.
 
 The verdicts the book teaches are three: supported, contradicted, and
 insufficient, the third being the one most readers avoid and most

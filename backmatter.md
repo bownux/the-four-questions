@@ -108,7 +108,7 @@ against the printed transcript.
 All transcripts were captured on Gentoo Linux (kernel 6.18.31-gentoo-dist)
 with GNU userland, under `PATH=/usr/bin:/bin` with a scratch `HOME`,
 non-root, streams merged. GNU behavior is assumed where GNU and POSIX
-differ; the relevant instances are `stat -c` format strings, `grep -r`,
+differ; the relevant instances are `stat -c, ps -eo (procps),` format strings, `grep -r`,
 `ls`, `sed -i`, and `touch -d`, none of which are POSIX-portable spellings.
 Listings that would otherwise vary by machine pin what they can: `TZ=UTC` is
 exported where a timestamp is printed, process-table listings match on a

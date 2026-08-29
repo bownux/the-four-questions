@@ -93,12 +93,12 @@ chmod +x svc.sh
 ./svc.sh > /dev/null 2>&1 & SVC=$!
 sleep 1
 echo "== while the service runs =="
-ps ax -o args= | grep "svc.sh"
-echo "match count: $(ps ax -o args= | grep -c "svc.sh")"
+ps -eo args= | grep "svc.sh"
+echo "match count: $(ps -eo args= | grep -c "svc.sh")"
 kill "$SVC" 2>/dev/null; wait "$SVC" 2>/dev/null
 echo "== after the service is stopped =="
-ps ax -o args= | grep "svc.sh"
-echo "match count: $(ps ax -o args= | grep -c "svc.sh")"
+ps -eo args= | grep "svc.sh"
+echo "match count: $(ps -eo args= | grep -c "svc.sh")"
 pgrep -f "svc.sh" > /dev/null; echo "pgrep exit: $?"
 ```
 
@@ -134,6 +134,8 @@ and its exit 1 is chapter 1's trichotomy answering *no* cleanly. When a
 transcript offers both a self-matching instrument and a clean one, the clean
 one is the testimony. When it offers only the self-matching one, the reader
 subtracts the known artifact — one line, the grep itself — before counting.
+
+Operational requirement for process-table listings. The harness that produces the transcript must not carry the search pattern in its own `args=` — otherwise the observer is guaranteed to appear in the observation. Assemble the target name at runtime, use a self-avoiding pattern such as `[s]vc`, or filter on fields a wrapper will not share. Chapter 5's lesson is not complete until the capture procedure itself obeys the subtract-observer rule; a checker that only scans for usernames will not catch this family.
 
 A note on how this chapter's transcript was produced, because it is the
 chapter's lesson happening to its author. The first capture of that listing

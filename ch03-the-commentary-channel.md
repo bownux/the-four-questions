@@ -284,8 +284,8 @@ step 3 done
 ```
 
 The note about step 2 appears *before step 1*. No time machine is
-involved — buffering is. By longstanding C-library convention that most
-runtimes inherit, stderr is unbuffered or line-buffered — its lines leave
+involved — buffering is. By longstanding C-library convention (see
+`setvbuf(3)`), stderr is unbuffered or line-buffered — its lines leave
 the process promptly — while stdout, when it feeds a pipe rather than a
 terminal, is block-buffered: lines accumulate in a buffer and land
 wholesale when it flushes, here at exit. So the three stdout lines
@@ -303,7 +303,7 @@ to precede the command that caused it, the interleaved output of two
 parallel jobs (the previous trilogy's parallel chapters produced exactly
 such transcripts) where adjacency implies relationship and implies it
 falsely. The discipline: within one stream, order is evidence; across
-merged streams, order is an artifact of buffering until proven otherwise;
+merged streams, order is an artifact of buffering until proven otherwise. CPython note: `print()` under a pipe is interpreter-buffered and is not fully described by the C `setvbuf` rule; force line/unbuffered mode with `python3 -u` or `PYTHONUNBUFFERED=1` when you need the listing's interleaving to be about the program's writes rather than the runtime's block buffer. The `python3 steps.py 2>&1 | cat` demonstration in this chapter assumes a default CPython pipe (not `-u`);
 and *attribution* — which line belongs to which command, which job,
 which channel — must rest on the lines' content and labels, never on
 their neighborhood. Producers who tag their lines (`[job-3]`, timestamps,

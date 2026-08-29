@@ -266,6 +266,8 @@ last-iteration status, failures narrated instead of propagated, `set -e`
 absent and — as the previous trilogy documented — full of exceptions even
 when present. Verdict-channel testimony thins as structures nest.
 
+Precondition for swallowed-failure demos. The listings in this section assume bash defaults: `set -e` / `errexit` off and `set -o pipefail` off. With `errexit` on, a failing iteration can abort the loop before a later `echo` repaints the status to 0. With `pipefail` on, a pipeline's status is no longer only its last stage. Size any claim of the form "exit 0 means the whole aggregate was fine" against that option state — or the observation is about a different shell than the one you are judging. The same precondition applies to `|| true` swallowers later in this chapter.
+
 What rescues this transcript is its content: `c.txt: INVALID` is printed,
 plain as day. Against the claim "all three inputs validated," the verdict
 is contradicted — by line three of the output, not by the status. This is
