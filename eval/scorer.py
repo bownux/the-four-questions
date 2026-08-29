@@ -65,12 +65,20 @@ def build_prompt(case, condition):
 
 
 def parse_answer(text):
-    v = re.search(r"verdict:\s*(supported|contradicted|insufficient)", text, re.I)
-    cconf = re.search(r"confidence:\s*(\d{1,3})", text)
-    if not v:
+    """Take the LAST verdict/confidence pair in the reply.
+
+    Reasoning models routinely restate the option list, or think aloud and
+    revise, before committing. Reading the first match scores the menu
+    rather than the answer — which would understate a verbose model and
+    silently favour terse ones, an artifact of the harness rather than the
+    treatment.
+    """
+    vs = re.findall(r"verdict:\s*(supported|contradicted|insufficient)", text, re.I)
+    cs = re.findall(r"confidence:\s*(\d{1,3})", text)
+    if not vs:
         return None, None
-    conf = min(100, int(cconf.group(1))) if cconf else 50
-    return v.group(1).lower(), conf
+    conf = min(100, int(cs[-1])) if cs else 50
+    return vs[-1].lower(), conf
 
 
 def query(endpoint, model, prompt, timeout=120):

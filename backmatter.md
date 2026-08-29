@@ -59,6 +59,7 @@ that carries it names the observation that would resolve it.
 - **claim-sizing** — matching the claim's quantifiers and scope to the transcript's actual scope.
 - **commentary channel** — stderr and merged-stream warnings/progress; chapter 3's surface.
 - **compact treatment** — the one-page distillation used as eval condition (b) beside full-book and no-treatment.
+- **Δ (gap)** — chapter 7's shorthand for the distance between when the instrument ran and when the claim is about; sized against the failure modes that fit inside it.
 - **contradicted** — verdict: the transcript is evidence the claim is false.
 - **escalation** — disciplined exit when insufficient cannot end the work: ask for evidence or hand a human the labeled chain.
 - **four questions** — status; stderr; shape; labeled content — in that order.
@@ -70,6 +71,7 @@ that carries it names the observation that would resolve it.
 - **shape** — instrument, target, unit, frame, provenance, truncation, scope — before content is read.
 - **staleness** — relation between the moment of reading and the moment the claim is about, when the gap admits relevant failure modes.
 - **supported** — verdict: the transcript is evidence the claim is true.
+- **T_read / T_claim** — chapter 7's labels for the moment the instrument ran and the moment the claim is about; naming both is what makes Δ measurable rather than felt.
 - **trichotomy** — tools (grep, diff) that spend nonzero exits as answers, not only as failures.
 - **unit** — what a count counts (lines, records, bytes, events); part of shape.
 - **verdict channel** — the exit status integer; chapter 1's surface.
