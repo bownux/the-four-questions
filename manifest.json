@@ -11,13 +11,13 @@
     "isbn": null
   },
   "structure": {
-    "word_count_body": 25441,
-    "print_equivalent_pages": 85,
+    "word_count_body": 26079,
+    "print_equivalent_pages": 87,
     "chapters": [
       {
         "number": 1,
         "title": "The Verdict Channel",
-        "words": 3184,
+        "words": 3358,
         "source_file": "ch01-the-verdict-channel.md",
         "written_by": [
           {
@@ -30,7 +30,7 @@
       {
         "number": 2,
         "title": "What the Number Cannot Say",
-        "words": 3380,
+        "words": 3476,
         "source_file": "ch02-what-the-number-cannot-say.md",
         "written_by": [
           {
@@ -43,7 +43,7 @@
       {
         "number": 3,
         "title": "The Commentary Channel",
-        "words": 3084,
+        "words": 3144,
         "source_file": "ch03-the-commentary-channel.md",
         "written_by": [
           {
@@ -56,7 +56,7 @@
       {
         "number": 4,
         "title": "The Sound of Nothing",
-        "words": 3154,
+        "words": 3222,
         "source_file": "ch04-the-sound-of-nothing.md",
         "written_by": [
           {
@@ -69,7 +69,7 @@
       {
         "number": 5,
         "title": "Shape Before Content",
-        "words": 3027,
+        "words": 3108,
         "source_file": "ch05-shape-before-content.md",
         "written_by": [
           {
@@ -95,7 +95,7 @@
       {
         "number": 7,
         "title": "Time, Order, and the Moving World",
-        "words": 3188,
+        "words": 3347,
         "source_file": "ch07-time-order-and-the-moving-world.md",
         "written_by": [
           {

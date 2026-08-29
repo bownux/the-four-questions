@@ -363,31 +363,57 @@ past into a claim about the moment of action.
 
 
 
-Worked TOCTOU (captured live). Two writers; the first checks absence, sleeps
-(the gap), then writes; the second writes during the gap:
+
+Worked TOCTOU (captured live). Two demonstrations, same lesson.
+
+**Atomic create closes the gap.** With `set -o noclobber`, create-if-absent is
+one contract — the second writer is refused by the open, not by a later hope:
 
 ```bash
 rm -f slot
-( if [ ! -e slot ]; then sleep 0.2; echo winner > slot; echo "write_status:$?"; fi ) &
-sleep 0.05
-echo racer > slot
-wait
+( set -o noclobber; echo A > slot ) 2>errA; echo "A_status:$?"
+( set -o noclobber; echo B > slot ) 2>errB; echo "B_status:$?"
 echo "final:$(cat slot)"
+echo -n "errB:"; cat errB
 ```
 
 ```output
+A_status:0
+B_status:1
+final:A
+errB:bash: line 5: slot: cannot overwrite existing file
+```
+
+**Stale check-then-act loses deterministically.** The operator records
+"absent", a concurrent writer fills the path during the gap, and the operator
+still acts on the old observation:
+
+```bash
+rm -f slot3
+if [ ! -e slot3 ]; then OBS=absent; else OBS=present; fi
+echo "check:$OBS"
+echo racer > slot3                    # concurrent writer during the gap
+if [ "$OBS" = absent ]; then echo winner > slot3; echo "write_status:$?"; fi
+echo "final:$(cat slot3)"
+```
+
+```output
+check:absent
 write_status:0
 final:winner
 ```
 
-Both sides can show exit 0. The final bytes are `racer`, not `winner` — the
-check was true when it ran and false when it mattered. A transcript that prints
-only the checker's `write_status:0` **supports** "the write syscall succeeded"
-and is **insufficient** for "the write was safe against concurrent creators."
-The atomic form of the same intent is a single contract that closes the gap
-(`set -o noclobber` with `>` under race, `mv -n`, exclusive create flags): one
-status that means check-and-act together. Without that contract in the command
-line, price the sequence as hope under concurrency — not as proof of safety.
+`write_status:0` **supports** "the write syscall succeeded." It is
+**insufficient** for "the write was safe against concurrent creators," and
+the final bytes (`racer` overwritten by `winner`, or the reverse under a
+different schedule) are the residue of a race, not of a contract. Read the
+command lines: only an atomic exclusive create, a lock with a defined owner,
+or a compare-and-swap turns the gap into a single verdict channel. A separate
+check followed by a separate act remains evidence of hope under concurrency —
+even when every status is zero and a single quiet machine "usually" gets away
+with it.
+
+
 
 ## Instants, durations, and the output that spans a window
 

@@ -8,7 +8,7 @@
   "warn_count": 0,
   "findings": [],
   "measured": {
-    "body_words_measured": 26042,
+    "body_words_measured": 26079,
     "print_equivalent_pages": 87,
     "chapter_words": {
       "ch01-the-verdict-channel.md": 3358,
@@ -17,7 +17,7 @@
       "ch04-the-sound-of-nothing.md": 3222,
       "ch05-shape-before-content.md": 3108,
       "ch06-claims-against-evidence.md": 3121,
-      "ch07-time-order-and-the-moving-world.md": 3310,
+      "ch07-time-order-and-the-moving-world.md": 3347,
       "ch08-judging-under-uncertainty.md": 3303
     },
     "padding_metrics": {
@@ -48,15 +48,15 @@
         },
         "ch07-time-order-and-the-moving-world.md": {
           "scaffold_share": 0.0,
-          "bullet_share": 0.062
+          "bullet_share": 0.061
         },
         "ch08-judging-under-uncertainty.md": {
           "scaffold_share": 0.0,
           "bullet_share": 0.078
         }
       },
-      "compression_ratio": 0.3468,
-      "near_duplicate_paragraph_share": 0.0365,
+      "compression_ratio": 0.3466,
+      "near_duplicate_paragraph_share": 0.0362,
       "top_ngram": {
         "ngram": "*draft status: author draft; human verification",
         "share": 0.00029

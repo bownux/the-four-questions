@@ -169,8 +169,10 @@ resolved at submission.
 20. curl manual — "By default, curl does not consider HTTP response codes to
     indicate failure"; `--fail` fails with error code 22 for responses 400
     and above. https://curl.se/docs/manpage.html
-21. O'AILLY press catalog — the operator trilogy this volume reads against.
-    https://oailly.com/
+21. O'AILLY operator trilogy (writing-side contract this volume reads against):
+    *Linux for Language Models* — https://oailly.com/read/rogerai-labs--linux-for-language-models/
+    *Durable State for Ephemeral Minds* — https://oailly.com/read/rogerai-labs--sqlite-for-agents/
+    *The Repository Is the Ledger* — https://oailly.com/read/rogerai-labs--git-for-unattended-operators/
 
 ## Boundaries (restated)
 
