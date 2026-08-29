@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bounded pilot run of the eval against a live local endpoint.
+"""Bounded pilot run of the eval against a live OpenAI-compatible endpoint.
 
 Not the promotion measurement: a stratified subset, one run per condition,
 to prove the harness works end-to-end against a real reader-model and to
@@ -9,10 +9,18 @@ import json, re, sys, time, urllib.request
 from pathlib import Path
 
 EVAL = Path(__file__).resolve().parent.parent
-ENDPOINT = "http://127.0.0.1:8085/v1/chat/completions"
-MODEL = "qwen3.8-27b"
-PER_FAMILY = int(sys.argv[1]) if len(sys.argv) > 1 else 4
-CONDITIONS = sys.argv[2].split(",") if len(sys.argv) > 2 else ["none", "compact"]
+import argparse
+
+_ap = argparse.ArgumentParser(description=__doc__)
+_ap.add_argument("--per-family", type=int, default=3,
+                 help="cases sampled per misreading family (default 3)")
+_ap.add_argument("--conditions", default="none,compact",
+                 help="comma-separated: none, compact, book")
+_ap.add_argument("--endpoint", default="http://127.0.0.1:8085/v1/chat/completions")
+_ap.add_argument("--model", default="qwen3.8-27b")
+_args = _ap.parse_args()
+ENDPOINT, MODEL = _args.endpoint, _args.model
+PER_FAMILY, CONDITIONS = _args.per_family, _args.conditions.split(",")
 
 PROMPT = """You will judge whether a claim is supported by a command transcript.
 

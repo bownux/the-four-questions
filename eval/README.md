@@ -57,6 +57,21 @@ text that drifts from the chapters the moment either is edited. Run
 `python3 build/make_book.py` before any `--condition book` run. Three runs per condition (temperature 0 still varies
 across servers); report mean ± range.
 
+## Pilot runs
+
+`build/pilot.py` runs a stratified subset against a live endpoint with
+per-case progress logging — for proving the harness end-to-end and getting a
+preliminary signal without committing to the full 3×3 design:
+
+```sh
+python3 build/pilot.py --per-family 3 --conditions none,compact \
+    --endpoint http://127.0.0.1:8085/v1/chat/completions --model <served-model>
+```
+
+It writes `pilot-<condition>.json` (gitignored). A pilot is **not** the
+promotion measurement: one run, a subset, no noise floor. Nothing from a
+pilot belongs in the book.
+
 ## Metrics
 
 - **Accuracy**, overall and per-family. Unparseable answers score as wrong —
