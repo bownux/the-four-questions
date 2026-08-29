@@ -1,0 +1,66 @@
+{
+  "gate": "pass1",
+  "version": "1.0",
+  "date": "2026-08-29",
+  "book_dir": "books/the-four-questions",
+  "verdict": "PASS",
+  "reject_count": 0,
+  "warn_count": 0,
+  "findings": [],
+  "measured": {
+    "body_words_measured": 25441,
+    "print_equivalent_pages": 85,
+    "chapter_words": {
+      "ch01-the-verdict-channel.md": 3184,
+      "ch02-what-the-number-cannot-say.md": 3380,
+      "ch03-the-commentary-channel.md": 3084,
+      "ch04-the-sound-of-nothing.md": 3154,
+      "ch05-shape-before-content.md": 3027,
+      "ch06-claims-against-evidence.md": 3121,
+      "ch07-time-order-and-the-moving-world.md": 3188,
+      "ch08-judging-under-uncertainty.md": 3303
+    },
+    "padding_metrics": {
+      "chapters": {
+        "ch01-the-verdict-channel.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.014
+        },
+        "ch02-what-the-number-cannot-say.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.0
+        },
+        "ch03-the-commentary-channel.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.0
+        },
+        "ch04-the-sound-of-nothing.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.0
+        },
+        "ch05-shape-before-content.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.004
+        },
+        "ch06-claims-against-evidence.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.0
+        },
+        "ch07-time-order-and-the-moving-world.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.064
+        },
+        "ch08-judging-under-uncertainty.md": {
+          "scaffold_share": 0.0,
+          "bullet_share": 0.078
+        }
+      },
+      "compression_ratio": 0.3455,
+      "near_duplicate_paragraph_share": 0.0374,
+      "top_ngram": {
+        "ngram": "*draft status: author draft; human verification",
+        "share": 0.0003
+      }
+    }
+  }
+}

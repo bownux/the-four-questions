@@ -1,0 +1,965 @@
+{
+  "corpus": "the-four-questions measured corpus v1",
+  "captured": "2026-08-29, real transcripts, gate-style sandbox (PATH=/usr/bin:/bin, fresh HOME, merged streams)",
+  "verdicts": [
+    "supported",
+    "contradicted",
+    "insufficient"
+  ],
+  "size": 104,
+  "verdict_distribution": {
+    "contradicted": 40,
+    "supported": 33,
+    "insufficient": 31
+  },
+  "majority_class_baseline": 0.385,
+  "families": [
+    "claim-vs-evidence",
+    "commentary-channel",
+    "composed-judgment",
+    "empty-output",
+    "shape-mismatch",
+    "staleness",
+    "success-shaped-failure",
+    "verdict-channel"
+  ],
+  "holdout": "No case reuses a command line, fixture filename, claim sentence, or data file from the book's worked examples; families match the chapters, surfaces do not. Verified by eval/build/check_holdout.py.",
+  "cases": [
+    {
+      "id": "V-01",
+      "family": "verdict-channel",
+      "context": "An operator checked whether the deny-list file contains the entry 'legacy-api'.",
+      "transcript": "exit: 1",
+      "claim": "The deny-list check errored out and must be re-run.",
+      "gold": "contradicted",
+      "rationale": "grep exit 1 is the documented 'no lines selected' answer; the check ran and answered no. An error would be exit 2 with a diagnostic."
+    },
+    {
+      "id": "V-02",
+      "family": "verdict-channel",
+      "context": "Two build manifests were compared before promoting a release.",
+      "transcript": "2c2\n< pkg-b 3.4\n---\n> pkg-b 3.5\nexit: 1",
+      "claim": "The two manifests are identical.",
+      "gold": "contradicted",
+      "rationale": "diff exit 1 with a printed hunk means the inputs differ; pkg-b is 3.4 in staging and 3.5 in production."
+    },
+    {
+      "id": "V-03",
+      "family": "verdict-channel",
+      "context": "A maintenance script tried to invoke the cluster CLI.",
+      "transcript": "bash: line 1: clusterctl: command not found\nexit: 127",
+      "claim": "The cluster has no nodes registered.",
+      "gold": "contradicted",
+      "rationale": "Exit 127 is command-not-found: the CLI was never located, so no query about nodes was performed. The transcript says nothing about the cluster."
+    },
+    {
+      "id": "V-04",
+      "family": "verdict-channel",
+      "context": "A data export was run under a time limit.",
+      "transcript": "exit: 124",
+      "claim": "The export finished within its time limit.",
+      "gold": "contradicted",
+      "rationale": "Exit 124 is timeout's documented report that the command outlived its allowance and was killed."
+    },
+    {
+      "id": "V-05",
+      "family": "verdict-channel",
+      "context": "A helper script was executed as part of a nightly job.",
+      "transcript": "bash: line 1: ./helper.sh: Permission denied\nexit: 126",
+      "claim": "The helper script is missing from the job directory.",
+      "gold": "contradicted",
+      "rationale": "Exit 126 means the file was found but could not be executed (no execute permission); 127 would mean missing. The file exists."
+    },
+    {
+      "id": "V-06",
+      "family": "verdict-channel",
+      "context": "A worker process was stopped by the supervisor during a drain.",
+      "transcript": "Terminated                 bash -c 'kill -TERM $$' 2>&1\nexit: 143",
+      "claim": "The worker exited on its own after finishing its queue.",
+      "gold": "contradicted",
+      "rationale": "Exit 143 is 128+15: the process was terminated by SIGTERM, not by completing and exiting on its own."
+    },
+    {
+      "id": "V-07",
+      "family": "verdict-channel",
+      "context": "A configuration file was checked for a required setting.",
+      "transcript": "1:tls_enabled = true\nexit: 0",
+      "claim": "TLS is enabled in this configuration file.",
+      "gold": "supported",
+      "rationale": "grep exit 0 with the matching line printed at its line number directly evidences the setting."
+    },
+    {
+      "id": "V-08",
+      "family": "verdict-channel",
+      "context": "An integrity check compared a downloaded artifact against its reference copy.",
+      "transcript": "exit: 0",
+      "claim": "The downloaded artifact matches the reference byte for byte.",
+      "gold": "supported",
+      "rationale": "cmp exit 0 with no output is the documented 'files are identical' answer."
+    },
+    {
+      "id": "V-09",
+      "family": "verdict-channel",
+      "context": "A pipeline extracted matching records and counted them. The shell's pipefail option is not set anywhere in this session.",
+      "transcript": "0\npipeline exit: 0",
+      "claim": "The extraction step ran without error.",
+      "gold": "insufficient",
+      "rationale": "The printed status belongs to wc, the pipeline's last member. Without pipefail or PIPESTATUS the upstream grep's status is not in the record; the count 0 shows it selected nothing but cannot distinguish no-match (exit 1) from an error (exit 2)."
+    },
+    {
+      "id": "V-10",
+      "family": "verdict-channel",
+      "context": "A cleanup command was run against a scratch directory.",
+      "transcript": "exit: 0",
+      "claim": "The cache files were deleted.",
+      "gold": "insufficient",
+      "rationale": "find exits 0 for a completed traversal whether or not anything matched, and the transcript shows no listing before or after. Nothing here evidences that any file was removed."
+    },
+    {
+      "id": "V-11",
+      "family": "verdict-channel",
+      "context": "A search for a hard-coded credential pattern was run over a source directory.",
+      "transcript": "grep: missing_dir: No such file or directory\nexit: 2",
+      "claim": "The credential scan completed over both requested paths.",
+      "gold": "contradicted",
+      "rationale": "grep exit 2 with a stderr diagnostic means an input could not be read: missing_dir was never scanned, so the scan did not complete over both paths."
+    },
+    {
+      "id": "V-12",
+      "family": "verdict-channel",
+      "context": "A JSON config was validated before deployment.",
+      "transcript": "exit: 0",
+      "claim": "The configuration is valid JSON.",
+      "gold": "supported",
+      "rationale": "The parser exited 0, which is exactly the claim's scope: well-formedness. Nothing wider is claimed."
+    },
+    {
+      "id": "S-01",
+      "family": "success-shaped-failure",
+      "context": "An operator intended to archive the reports directory into reports.tar.",
+      "transcript": "tar: reprots: Cannot stat: No such file or directory\ntar: Exiting with failure status due to previous errors\ntar exit: 2\nreports\nreports.tar",
+      "claim": "reports.tar now contains the reports directory.",
+      "gold": "contradicted",
+      "rationale": "The source path was misspelled; tar reported it could not stat 'reprots' and exited 2. An empty reports.tar appears in the listing because tar creates its output file before reading inputs, so its presence is not evidence the directory was archived."
+    },
+    {
+      "id": "S-02",
+      "family": "success-shaped-failure",
+      "context": "An operator intended to change the log level to debug.",
+      "transcript": "sed exit: 0\nloglevel=info\nworkers=4",
+      "claim": "The log level is now debug.",
+      "gold": "contradicted",
+      "rationale": "sed exited 0 but its pattern (log_level) does not match the file's spelling (loglevel); the read-back shows loglevel=info unchanged."
+    },
+    {
+      "id": "S-03",
+      "family": "success-shaped-failure",
+      "context": "An operator intended to move all PDF invoices into the archive directory.",
+      "transcript": "mv: cannot stat '*.PDF': No such file or directory\nmv exit: 1\narchive\ninvoice1.pdf\ninvoice2.pdf\nnotes.txt",
+      "claim": "Both invoices were moved into archive/.",
+      "gold": "contradicted",
+      "rationale": "The uppercase glob matched nothing, mv reported the failure, and the listings show both invoices still in the working directory and archive/ empty."
+    },
+    {
+      "id": "S-04",
+      "family": "success-shaped-failure",
+      "context": "A deployment script created the target directory before copying.",
+      "transcript": "mkdir exit: 0\nv3",
+      "claim": "The releases/v3 directory was newly created by this run.",
+      "gold": "insufficient",
+      "rationale": "mkdir -p is a goal-state command: exit 0 means the directory exists now, not that this run created it. Nothing in the transcript shows prior absence."
+    },
+    {
+      "id": "S-05",
+      "family": "success-shaped-failure",
+      "context": "A cleanup step ran against a lock path before starting work.",
+      "transcript": "rm exit: 0",
+      "claim": "The cleanup step deleted a leftover lock from a previous run.",
+      "gold": "insufficient",
+      "rationale": "rm -f succeeds whether or not the file existed; the transcript is equally consistent with there having been no lock file at all."
+    },
+    {
+      "id": "S-06",
+      "family": "success-shaped-failure",
+      "context": "A backup routine copied two config files into a backup directory that it created first.",
+      "transcript": "copy exit: 0\none.conf\ntwo.conf\nboth compare equal: 0",
+      "claim": "Both config files are backed up correctly.",
+      "gold": "supported",
+      "rationale": "The destination is enumerated and both files are compared byte-for-byte against their sources with a printed exit 0."
+    },
+    {
+      "id": "S-07",
+      "family": "success-shaped-failure",
+      "context": "A database dump was written to a file.",
+      "transcript": "exit: 0\ndump.csv\ndump.csv.bak",
+      "claim": "The dump was copied to a backup file.",
+      "gold": "supported",
+      "rationale": "The copy exited 0 and the listing shows both dump.csv and dump.csv.bak present."
+    },
+    {
+      "id": "S-08",
+      "family": "success-shaped-failure",
+      "context": "A script normalized a data file in place using a redirect.",
+      "transcript": "lines before: 3\nsort exit: 0\nlines after:  0",
+      "claim": "The items file was sorted in place.",
+      "gold": "contradicted",
+      "rationale": "The redirect truncated items.txt before sort read it; the after-count is 0, so the data was destroyed rather than sorted."
+    },
+    {
+      "id": "S-09",
+      "family": "success-shaped-failure",
+      "context": "A loop validated three input files; one of them does not exist.",
+      "transcript": "in1.txt ok\nin2.txt ok\nin3.txt FAILED\nloop exit: 0",
+      "claim": "All three input files validated successfully.",
+      "gold": "contradicted",
+      "rationale": "The loop prints 'in3.txt FAILED'; the clean loop status only reflects the last echo, not the validation outcome."
+    },
+    {
+      "id": "S-10",
+      "family": "success-shaped-failure",
+      "context": "A permissions fix was applied to a config file.",
+      "transcript": "chmod exit: 0\n600 secret.env",
+      "claim": "secret.env is now mode 600.",
+      "gold": "supported",
+      "rationale": "The mode is read back from the file itself and printed as 600, which is the claim's exact content."
+    },
+    {
+      "id": "S-11",
+      "family": "success-shaped-failure",
+      "context": "A record count was checked after an import.",
+      "transcript": "3\nexit: 0",
+      "claim": "All 500 source records were imported.",
+      "gold": "contradicted",
+      "rationale": "The imported file holds 3 lines, which contradicts a claim of 500 records regardless of what the source contained."
+    },
+    {
+      "id": "S-12",
+      "family": "success-shaped-failure",
+      "context": "A symlink was pointed at the current release.",
+      "transcript": "ln exit: 0\nrel-2",
+      "claim": "The current symlink points at rel-2.",
+      "gold": "supported",
+      "rationale": "readlink observes the link's target directly and prints rel-2."
+    },
+    {
+      "id": "C-01",
+      "family": "commentary-channel",
+      "context": "A migration tool was run; stdout and stderr are merged in this transcript.",
+      "transcript": "WARNING: column created_at has no index; migration will be slow\nmigrated 250 rows\nexit: 0",
+      "claim": "The migration completed with no warnings.",
+      "gold": "contradicted",
+      "rationale": "A warning about the missing index is present in the merged output; the run succeeded but 'no warnings' is false."
+    },
+    {
+      "id": "C-02",
+      "family": "commentary-channel",
+      "context": "A package installer was run; streams are merged.",
+      "transcript": "notice: using cached index from 2026-08-01\ninstalled 4 packages\nexit: 0",
+      "claim": "Four packages were installed.",
+      "gold": "supported",
+      "rationale": "The stdout line reports the installation and the exit status is 0; the stderr line is a notice about index freshness, which does not contradict the count."
+    },
+    {
+      "id": "C-03",
+      "family": "commentary-channel",
+      "context": "A retrying uploader was run against a flaky endpoint; streams are merged.",
+      "transcript": "error: connection refused (attempt 1)\nerror: connection refused (attempt 2)\nuploaded backup.tar (attempt 3)\nexit: 0",
+      "claim": "The upload failed.",
+      "gold": "contradicted",
+      "rationale": "The error lines describe two failed attempts that were overtaken by a successful third; the final line reports the upload completing and the status is 0."
+    },
+    {
+      "id": "C-04",
+      "family": "commentary-channel",
+      "context": "A batch job processed a list of records; streams are merged.",
+      "transcript": "record 3: parse error, skipped\nprocessed 9 of 10 records\nexit: 0",
+      "claim": "Every record in the batch was processed.",
+      "gold": "contradicted",
+      "rationale": "Both channels agree that one record was skipped: stderr names the parse error and stdout reports 9 of 10."
+    },
+    {
+      "id": "C-05",
+      "family": "commentary-channel",
+      "context": "A checksum tool was run over two files; streams are merged.",
+      "transcript": "6667b2d1aab6a00caa5aee5af8ad9f1465e567abf1c209d15727d57b3e8f6e5f  present.bin\nsha256sum: absent.bin: No such file or directory\nexit: 1",
+      "claim": "Both files were checksummed successfully.",
+      "gold": "contradicted",
+      "rationale": "The stderr diagnostic reports absent.bin could not be read and the exit status is nonzero; only one file was checksummed."
+    },
+    {
+      "id": "C-06",
+      "family": "commentary-channel",
+      "context": "A tool wrote its result to stdout and its progress to a separate file. Only the stdout capture is shown.",
+      "transcript": "result: 42\nexit: 0",
+      "claim": "The tool emitted no warnings during the run.",
+      "gold": "insufficient",
+      "rationale": "stderr was redirected to progress.log and is not shown, so this capture cannot establish the presence or absence of warnings."
+    },
+    {
+      "id": "C-07",
+      "family": "commentary-channel",
+      "context": "A linter was run over a source tree; streams are merged.",
+      "transcript": "style: line 42 exceeds 100 columns\nexit: 0",
+      "claim": "The linter found no issues.",
+      "gold": "contradicted",
+      "rationale": "A style finding is printed on stderr; the clean exit reflects the linter's contract of not failing on style findings, not an absence of them."
+    },
+    {
+      "id": "C-08",
+      "family": "commentary-channel",
+      "context": "A timing measurement was taken of a short command.",
+      "transcript": "1\nexit: 0",
+      "claim": "The timing output was captured in this transcript.",
+      "gold": "supported",
+      "rationale": "The count of 1 shows a 'real' timing line was produced and captured; the shell's time keyword writes to stderr, which this capture merged."
+    },
+    {
+      "id": "C-09",
+      "family": "commentary-channel",
+      "context": "A tool was run with its error output discarded.",
+      "transcript": "exit: 2",
+      "claim": "The path was listed without problems.",
+      "gold": "contradicted",
+      "rationale": "The nonzero exit status shows the listing failed even though the diagnostic was discarded by the redirection."
+    },
+    {
+      "id": "C-10",
+      "family": "commentary-channel",
+      "context": "A deprecation-carrying build was run; streams are merged.",
+      "transcript": "DEPRECATION: --legacy-resolver is removed in 3.0 (this build uses it)\nbuild succeeded in 12s\nexit: 0",
+      "claim": "This build will keep working after the 3.0 upgrade.",
+      "gold": "contradicted",
+      "rationale": "The deprecation warning states the flag this build uses is removed in 3.0, which is evidence against the claim rather than for it."
+    },
+    {
+      "id": "C-11",
+      "family": "commentary-channel",
+      "context": "A service reload was attempted; streams are merged.",
+      "transcript": "config test successful\nreloading\nexit: 0",
+      "claim": "The configuration passed its syntax test.",
+      "gold": "supported",
+      "rationale": "The tool's own output reports the config test succeeding and the run exited 0."
+    },
+    {
+      "id": "C-12",
+      "family": "commentary-channel",
+      "context": "A copy ran with a warning about preserving attributes; streams are merged.",
+      "transcript": "warning: could not preserve ownership\nexit: 0\ncontents equal: 0",
+      "claim": "The file contents were copied correctly.",
+      "gold": "supported",
+      "rationale": "The byte comparison exits 0; the ownership warning concerns metadata, not contents, so it does not bear on this claim."
+    },
+    {
+      "id": "E-01",
+      "family": "empty-output",
+      "context": "An operator checked whether any core dumps were left in the crash directory.",
+      "transcript": "exit: 0\n1",
+      "claim": "There are no core dumps in the crash directory.",
+      "gold": "supported",
+      "rationale": "The traversal completed (exit 0), the directory is shown to be inhabited by one file, and no core.* entries were found."
+    },
+    {
+      "id": "E-02",
+      "family": "empty-output",
+      "context": "An operator searched the August billing directory for failed charges.",
+      "transcript": "exit: 1\nbilling/2026-07/log.txt",
+      "claim": "No charges failed in the billing records.",
+      "gold": "contradicted",
+      "rationale": "The searched directory is empty; the only billing file lives under 2026-07 and contains a FAILED charge, which the search never examined."
+    },
+    {
+      "id": "E-03",
+      "family": "empty-output",
+      "context": "An operator searched a restricted directory for key files.",
+      "transcript": "exit: 1",
+      "claim": "There are no private key files in the keys directory.",
+      "gold": "insufficient",
+      "rationale": "find's nonzero exit shows the traversal was obstructed and its diagnostic was discarded by the redirection; the silence covers a directory that could not be read, so it settles nothing either way."
+    },
+    {
+      "id": "E-04",
+      "family": "empty-output",
+      "context": "An operator searched an application log for warnings.",
+      "transcript": "exit: 1\n1",
+      "claim": "The application logged no warnings.",
+      "gold": "contradicted",
+      "rationale": "The case-sensitive pattern missed the file's spelling; a case-insensitive count finds 1 warning line."
+    },
+    {
+      "id": "E-05",
+      "family": "empty-output",
+      "context": "An operator checked whether the error log recorded anything during the incident window.",
+      "transcript": "0\nexit: 1\n0 error.log",
+      "claim": "The service ran without errors during the window.",
+      "gold": "insufficient",
+      "rationale": "The log is zero bytes, so it cannot distinguish 'no errors occurred' from 'nothing was ever written to this file'."
+    },
+    {
+      "id": "E-06",
+      "family": "empty-output",
+      "context": "The program emit.py contains exactly these three lines: 'import os', 'print(\"total: 128\")', 'os._exit(0)'. It was run with its output piped to cat.",
+      "transcript": "exit: 0",
+      "claim": "The program produced no output.",
+      "gold": "contradicted",
+      "rationale": "The stated source prints a total; os._exit terminates without flushing the block-buffered pipe, so the line was produced and lost in the capture rather than never produced."
+    },
+    {
+      "id": "E-07",
+      "family": "empty-output",
+      "context": "An operator listed the quarantine directory after a scan.",
+      "transcript": "exit: 0\n0",
+      "claim": "The quarantine directory is empty.",
+      "gold": "supported",
+      "rationale": "ls completed successfully and the explicit count of entries, including hidden ones, is 0."
+    },
+    {
+      "id": "E-08",
+      "family": "empty-output",
+      "context": "An operator searched for TODO markers across a source directory.",
+      "transcript": "exit: 1\n1",
+      "claim": "There are no TODO markers in the source directory.",
+      "gold": "supported",
+      "rationale": "The scope is shown to contain one file, the search completed, and grep's exit 1 is the documented not-found answer."
+    },
+    {
+      "id": "E-09",
+      "family": "empty-output",
+      "context": "A monitoring channel produced no alerts overnight.",
+      "transcript": "0\nexit: 1\n0 alerts.log",
+      "claim": "The fleet was healthy overnight because no alerts fired.",
+      "gold": "insufficient",
+      "rationale": "An empty alert log cannot distinguish a healthy fleet from a dead reporting channel; nothing here evidences that the channel was alive."
+    },
+    {
+      "id": "E-10",
+      "family": "empty-output",
+      "context": "An operator checked for running containers with a name filter.",
+      "transcript": "exit: 1\n2",
+      "claim": "No containers whose names start with worker- are running.",
+      "gold": "supported",
+      "rationale": "The source listing is shown to be non-empty and the anchored pattern selected no lines, which is grep's exit-1 answer for this scope."
+    },
+    {
+      "id": "E-11",
+      "family": "empty-output",
+      "context": "An operator diffed a deployed config against the repository copy.",
+      "transcript": "exit: 0",
+      "claim": "The deployed config matches the repository copy.",
+      "gold": "supported",
+      "rationale": "diff printed nothing and exited 0, which is its documented 'inputs are the same' answer."
+    },
+    {
+      "id": "E-12",
+      "family": "empty-output",
+      "context": "An operator grepped a log that had just been rotated.",
+      "transcript": "0\nexit: 1\nsvc.log\nsvc.log.1",
+      "claim": "There were no upstream failures during the shift.",
+      "gold": "contradicted",
+      "rationale": "The searched file is a freshly created empty log; the rotated sibling svc.log.1 shown in the listing holds the error the claim denies."
+    },
+    {
+      "id": "H-01",
+      "family": "shape-mismatch",
+      "context": "An operator checked which port the running service is configured to use.",
+      "transcript": "./doc/manual.txt:1:By default the server binds port 7100.\nexit: 0",
+      "claim": "The service is configured to bind port 7100.",
+      "gold": "insufficient",
+      "rationale": "The only match is a sentence in a documentation file describing a default; no configuration file appears in the output, so the running configuration is not in evidence."
+    },
+    {
+      "id": "H-02",
+      "family": "shape-mismatch",
+      "context": "An operator checked whether the indexer process is running.",
+      "transcript": "grep indexer.sh\nmatch count: 1",
+      "claim": "The indexer is running: it appears in the process list.",
+      "gold": "contradicted",
+      "rationale": "The only matching line is the grep process itself; the indexer was never started, and a self-match is not evidence of a running service."
+    },
+    {
+      "id": "H-03",
+      "family": "shape-mismatch",
+      "context": "An operator inspected a request log to judge whether the service handled traffic normally.",
+      "transcript": "GET /health 200\nGET /health 200\nGET /health 200\nGET /health 200\ntotal lines: 9",
+      "claim": "Every request in the log returned 200.",
+      "gold": "insufficient",
+      "rationale": "The view is truncated to 4 of 9 lines and the printed total discloses the gap; the claim covers lines the transcript does not show."
+    },
+    {
+      "id": "H-04",
+      "family": "shape-mismatch",
+      "context": "An access review counted administrator accounts in a CSV whose columns are user,role,enabled.",
+      "transcript": "2\nexit: 0\nuser,role,enabled\nann,admin,yes\nbob,admin,no\ncat,viewer,yes",
+      "claim": "Two administrator accounts are enabled.",
+      "gold": "contradicted",
+      "rationale": "grep counts lines containing the string, not enabled admins; the file shows one of the two admin rows has enabled=no."
+    },
+    {
+      "id": "H-05",
+      "family": "shape-mismatch",
+      "context": "An API response was saved and checked.",
+      "transcript": "parse exit: 0\nitems: 0",
+      "claim": "The query returned zero matching items.",
+      "gold": "contradicted",
+      "rationale": "The response's status field reports an error (rate limited); the empty items array is a rejected request, not a finding about the data."
+    },
+    {
+      "id": "H-06",
+      "family": "shape-mismatch",
+      "context": "A disk check was run to decide whether the data volume is full.",
+      "transcript": "4.0K\tdata\nexit: 0",
+      "claim": "The data volume has free space remaining.",
+      "gold": "insufficient",
+      "rationale": "du reports how much space the directory uses, not how much the volume has free; the output answers an adjacent question."
+    },
+    {
+      "id": "H-07",
+      "family": "shape-mismatch",
+      "context": "An operator verified a file's checksum against a published value.",
+      "transcript": "481f69ec5558d9679a81d6deb0dbe8912cafefb6a4dd5d2dddd06f441e19f19a  app.tgz\nexit: 0",
+      "claim": "The file's checksum matches the published value.",
+      "gold": "insufficient",
+      "rationale": "The transcript observes a checksum but contains no published value to compare it against, so the match itself is unevidenced."
+    },
+    {
+      "id": "H-08",
+      "family": "shape-mismatch",
+      "context": "An operator counted the entries in a directory to confirm a batch of 3 files arrived.",
+      "transcript": "3\nexit: 0\nbatch-01.csv\nbatch-02.csv\nbatch-03.csv",
+      "claim": "All three expected files arrived in the inbox.",
+      "gold": "supported",
+      "rationale": "The count is 3 and the enumeration shows three distinct expected files."
+    },
+    {
+      "id": "H-09",
+      "family": "shape-mismatch",
+      "context": "A JSON credential record was inspected for an expiry field.",
+      "transcript": "expires value: None\nexpires present: True\nrevoked present: False",
+      "claim": "The record does not say anything about an expiry.",
+      "gold": "contradicted",
+      "rationale": "The expires field is present with an explicit null, which is a stated value; it is the revoked field that is absent from the record."
+    },
+    {
+      "id": "H-10",
+      "family": "shape-mismatch",
+      "context": "A log was checked for the most severe event using a sorted view.",
+      "transcript": "item1\nitem10\nitem2\nexit: 0\nitem2",
+      "claim": "The last item in sorted order is item2.",
+      "gold": "supported",
+      "rationale": "Lexicographic sort places item10 before item2, so item2 sorts last, and the tail confirms it."
+    },
+    {
+      "id": "H-11",
+      "family": "shape-mismatch",
+      "context": "A count of error lines was taken from a log where one line contains two occurrences of the word.",
+      "transcript": "1\nexit: 0\n2",
+      "claim": "The log contains exactly one error occurrence.",
+      "gold": "contradicted",
+      "rationale": "grep -c counts matching lines (1) while the occurrence count is 2; the transcript shows both numbers and the claim contradicts the latter."
+    },
+    {
+      "id": "H-12",
+      "family": "shape-mismatch",
+      "context": "A tail of the deployment log was pasted to show how the deploy ended.",
+      "transcript": "cleanup done\nexit: 0",
+      "claim": "The deploy finished cleanly.",
+      "gold": "insufficient",
+      "rationale": "A one-line tail shows only 'cleanup done'; the frame excludes everything before it, so the outcome of the deploy is not in evidence."
+    },
+    {
+      "id": "A-01",
+      "family": "claim-vs-evidence",
+      "context": "A release script printed a summary after copying files.",
+      "transcript": "Published 3 files to out/\nf1\nf2",
+      "claim": "Three files were published to out/.",
+      "gold": "contradicted",
+      "rationale": "The summary line is a hardcoded assertion; the directory listing observes two files, and observation outranks assertion."
+    },
+    {
+      "id": "A-02",
+      "family": "claim-vs-evidence",
+      "context": "A health endpoint was checked on one host of a three-host tier.",
+      "transcript": "ok\nexit: 0\n3",
+      "claim": "The whole tier is healthy.",
+      "gold": "insufficient",
+      "rationale": "One of three hosts was observed; the denominator is printed as 3 and the other two were never checked."
+    },
+    {
+      "id": "A-03",
+      "family": "claim-vs-evidence",
+      "context": "A file's modification time was used to argue that a deploy wrote it.",
+      "transcript": "app.jar modified=2026-08-29 02:00:00.000000000 +0000\nbuild-7",
+      "claim": "The 02:00 deploy installed build-9.",
+      "gold": "contradicted",
+      "rationale": "The file's content reads build-7; the timestamp is consistent with a 02:00 write but the artifact is not the claimed build."
+    },
+    {
+      "id": "A-04",
+      "family": "claim-vs-evidence",
+      "context": "A verification step compared a restored tree against its source.",
+      "transcript": "diff exit: 0\nsrc files: 2  restored: 2",
+      "claim": "The restore reproduced the source tree exactly.",
+      "gold": "supported",
+      "rationale": "A recursive diff exits 0 and both sides are counted, which is the residue a true restore claim requires."
+    },
+    {
+      "id": "A-05",
+      "family": "claim-vs-evidence",
+      "context": "A migration reported completion.",
+      "transcript": "Migration complete.\nsource rows: 5\ntarget rows: 3",
+      "claim": "All rows were migrated.",
+      "gold": "contradicted",
+      "rationale": "The counts on both sides disagree: 5 source rows against 3 target rows, refuting the completion assertion."
+    },
+    {
+      "id": "A-06",
+      "family": "claim-vs-evidence",
+      "context": "A certificate renewal tool printed a success line.",
+      "transcript": "Certificate renewed successfully.\nexit: 0",
+      "claim": "The certificate now has a later expiry date.",
+      "gold": "insufficient",
+      "rationale": "The only evidence is the tool's own assertion; no expiry date is observed from the certificate before or after."
+    },
+    {
+      "id": "A-07",
+      "family": "claim-vs-evidence",
+      "context": "A service was restarted and its process presence checked.",
+      "transcript": "pgrep exit: 0",
+      "claim": "A worker process is running.",
+      "gold": "supported",
+      "rationale": "pgrep exits 0, which is a direct observation that a matching process exists, and pgrep does not match itself."
+    },
+    {
+      "id": "A-08",
+      "family": "claim-vs-evidence",
+      "context": "A config change was applied and echoed back from the variable that held it.",
+      "transcript": "writing: timeout=60\nexit: 0",
+      "claim": "The service timeout is now 60.",
+      "gold": "insufficient",
+      "rationale": "The echoed value comes from the shell variable, not from the file; no read-back of svc.conf appears, so the effect is unevidenced."
+    },
+    {
+      "id": "A-09",
+      "family": "claim-vs-evidence",
+      "context": "An archive was verified after creation.",
+      "transcript": "tar exit: 0\ndocs/\ndocs/beta.md\ndocs/alpha.md",
+      "claim": "The archive contains both documents.",
+      "gold": "supported",
+      "rationale": "The archive's table of contents is listed and shows both files, which is an observation of the archive's contents."
+    },
+    {
+      "id": "A-10",
+      "family": "claim-vs-evidence",
+      "context": "A cleanup job reported how much space it reclaimed.",
+      "transcript": "Reclaimed 4.2 GB of disk space.\nold.bin",
+      "claim": "The job reclaimed 4.2 GB.",
+      "gold": "insufficient",
+      "rationale": "The figure rests entirely on the job's own printed assertion; no before/after space measurement appears, and the one observation present shows a file still in the target directory."
+    },
+    {
+      "id": "A-11",
+      "family": "claim-vs-evidence",
+      "context": "A test selection was run against a suite whose modules are api (4 tests) and db (6 tests).",
+      "transcript": "Ran 4 tests in 0.000s\n\nOK",
+      "claim": "The full suite passes.",
+      "gold": "insufficient",
+      "rationale": "Only the api module's 4 tests ran; the db module's 6 tests are outside this selection and their outcome is not in evidence."
+    },
+    {
+      "id": "A-12",
+      "family": "claim-vs-evidence",
+      "context": "A firewall rule file was checked for a deny-all default.",
+      "transcript": "3:default deny\nexit: 0",
+      "claim": "The rule set ends with a default-deny.",
+      "gold": "insufficient",
+      "rationale": "The match observes that a default-deny line exists at line 3, but nothing in the transcript establishes that it is the last rule; no line count or tail is shown."
+    },
+    {
+      "id": "T-01",
+      "family": "staleness",
+      "context": "An incident began at 14:00 UTC on 2026-08-28. An operator checked whether the config changed during it.",
+      "transcript": "svc.conf modified=2026-08-26 09:00:00.000000000 +0000",
+      "claim": "The config was modified during the incident.",
+      "gold": "contradicted",
+      "rationale": "The mtime is two days before the incident window; a write inside the window would have updated it."
+    },
+    {
+      "id": "T-02",
+      "family": "staleness",
+      "context": "A health check was captured at a known time. The claim is made a day later.",
+      "transcript": "checked at 2026-08-28 06:00:00.000000000 +0000\nstatus: ok",
+      "claim": "The service is healthy right now.",
+      "gold": "insufficient",
+      "rationale": "The observation is dated a day before the claim; nothing re-verifies the present state, and a service can change status in far less than a day."
+    },
+    {
+      "id": "T-03",
+      "family": "staleness",
+      "context": "A log was searched for events in the maintenance window 10:00-10:30 UTC.",
+      "transcript": "2026-08-29T10:02:00Z INFO start\n2026-08-29T10:07:00Z INFO done\nlines: 2",
+      "claim": "No errors occurred during the maintenance window.",
+      "gold": "insufficient",
+      "rationale": "The captured span runs 10:02 to 10:07 and the window extends to 10:30; the record does not cover the period the claim is about."
+    },
+    {
+      "id": "T-04",
+      "family": "staleness",
+      "context": "A file was checked after a deploy that is known to have run at 03:00 UTC on 2026-08-29.",
+      "transcript": "release.txt modified=2026-08-29 03:00:30.000000000 +0000\nv5",
+      "claim": "The 03:00 deploy wrote this file.",
+      "gold": "insufficient",
+      "rationale": "The mtime falls just after the deploy, which is consistent with the claim but does not identify the writer; any other process writing at that moment would leave the same evidence."
+    },
+    {
+      "id": "T-05",
+      "family": "staleness",
+      "context": "An operator claims a service is still up, citing one check.",
+      "transcript": "up\nexit: 0",
+      "claim": "The service is still up.",
+      "gold": "insufficient",
+      "rationale": "'Still' is a two-time claim requiring a prior observation and a current one; only one observation is present."
+    },
+    {
+      "id": "T-06",
+      "family": "staleness",
+      "context": "A rate claim was made from a single sample.",
+      "transcript": "request handled in 40ms",
+      "claim": "The service handles about 40ms per request on average.",
+      "gold": "insufficient",
+      "rationale": "A single sample cannot support an average; no series, window, or distribution is present."
+    },
+    {
+      "id": "T-07",
+      "family": "staleness",
+      "context": "An operator checked a certificate's recorded expiry date against today, 2026-08-29.",
+      "transcript": "notAfter=2027-01-15\nexit: 0",
+      "claim": "The certificate has not expired as of today.",
+      "gold": "supported",
+      "rationale": "The recorded expiry is 2027-01-15, later than the stated current date, so the record supports the claim for the date given."
+    },
+    {
+      "id": "T-08",
+      "family": "staleness",
+      "context": "A log file's age was checked against an incident that began at 12:00 UTC on 2026-08-29.",
+      "transcript": "inc.log modified=2026-08-29 12:05:00.000000000 +0000\n2026-08-29T12:04:00Z ERROR timeout",
+      "claim": "This log recorded an event inside the incident window.",
+      "gold": "supported",
+      "rationale": "The log's content carries a timestamp of 12:04 inside the window and its mtime is 12:05, both consistent with a write during the incident."
+    },
+    {
+      "id": "T-09",
+      "family": "staleness",
+      "context": "Two undated pastes of the same check were compared for ordering.",
+      "transcript": "state: degraded\nstate: healthy",
+      "claim": "The service recovered: it went from degraded to healthy.",
+      "gold": "insufficient",
+      "rationale": "Neither observation carries a time; paste order is not evidence of execution order, so the direction of the transition is not established."
+    },
+    {
+      "id": "T-10",
+      "family": "staleness",
+      "context": "A check-then-act sequence was recorded on a shared directory.",
+      "transcript": "lock absent\nlock created\nlock",
+      "claim": "This worker acquired the lock safely with no risk of a second worker holding it.",
+      "gold": "insufficient",
+      "rationale": "The check and the create are separate operations; nothing here is atomic, so the transcript cannot exclude another worker acting in the gap."
+    },
+    {
+      "id": "T-11",
+      "family": "staleness",
+      "context": "A file was inspected to determine how many times it changed today.",
+      "transcript": "notes.txt modified=2026-08-29 08:00:00.000000000 +0000",
+      "claim": "The file was modified exactly once today.",
+      "gold": "insufficient",
+      "rationale": "An mtime records only the most recent write; it cannot distinguish one modification from many."
+    },
+    {
+      "id": "T-12",
+      "family": "staleness",
+      "context": "A backup ran across a window during which the source was being written.",
+      "transcript": "source lines now: 2\nbackup lines:     1",
+      "claim": "The backup is a consistent copy of the source as it stands now.",
+      "gold": "contradicted",
+      "rationale": "The source has two lines and the backup one; the source changed after the copy, so the backup does not reflect the present state."
+    },
+    {
+      "id": "P-01",
+      "family": "composed-judgment",
+      "context": "A release chain: stage the artifact, verify it, swap it live, announce.",
+      "transcript": "release complete\nchain exit: 0\napp.live\napp.new\nv9",
+      "claim": "The release completed and the live artifact is v9.",
+      "gold": "supported",
+      "rationale": "Every link ran, the announcement printed, and the live file reads back as v9."
+    },
+    {
+      "id": "P-02",
+      "family": "composed-judgment",
+      "context": "A release chain that verifies before swapping.",
+      "transcript": "chain exit: 1\napp.new\napp.staged",
+      "claim": "The release completed.",
+      "gold": "contradicted",
+      "rationale": "The comparison failed, so the chain stopped before the swap; no announcement printed and no live artifact exists in the listing."
+    },
+    {
+      "id": "P-03",
+      "family": "composed-judgment",
+      "context": "A pipeline extracted, filtered, and counted records; pipefail is enabled.",
+      "transcript": "0\npipeline exit: 1",
+      "claim": "The extraction step found no matching records.",
+      "gold": "supported",
+      "rationale": "With pipefail enabled the pipeline's nonzero status propagates the grep's exit 1, which is its documented no-match answer, and the count is 0."
+    },
+    {
+      "id": "P-04",
+      "family": "composed-judgment",
+      "context": "A conditional cleanup ran after a check.",
+      "transcript": "cleaned\nexit: 0\n0",
+      "claim": "The old log was removed.",
+      "gold": "supported",
+      "rationale": "The chain announced completion and the directory count is 0, confirming the file is gone."
+    },
+    {
+      "id": "P-05",
+      "family": "composed-judgment",
+      "context": "A multi-step script used || true after a failing step.",
+      "transcript": "step one done\nstep two done\nscript exit: 0",
+      "claim": "Every step in the script succeeded.",
+      "gold": "insufficient",
+      "rationale": "The clean exit is produced by '|| true' swallowing a failing step; the transcript's own narration does not report which step failed, so success cannot be established."
+    },
+    {
+      "id": "P-06",
+      "family": "composed-judgment",
+      "context": "A guarded write ran when its precondition was not met.",
+      "transcript": "exit: 1",
+      "claim": "The output file was written.",
+      "gold": "contradicted",
+      "rationale": "The precondition test failed, so the chain short-circuited before the write; the listing shows no output.txt."
+    },
+    {
+      "id": "P-07",
+      "family": "composed-judgment",
+      "context": "A verification chain compared two directories and reported.",
+      "transcript": "trees match\nexit: 0",
+      "claim": "The two directory trees are identical.",
+      "gold": "supported",
+      "rationale": "The recursive diff succeeded and the chain printed 'trees match'."
+    },
+    {
+      "id": "P-08",
+      "family": "composed-judgment",
+      "context": "A retry loop attempted an operation three times.",
+      "transcript": "attempt 1: failed\nattempt 2: failed\nattempt 3: ok\nloop exit: 0",
+      "claim": "The operation eventually succeeded.",
+      "gold": "supported",
+      "rationale": "The final attempt reports ok, and later attempts overtake earlier failures in a retry sequence."
+    },
+    {
+      "id": "P-09",
+      "family": "composed-judgment",
+      "context": "A chain created a directory and then wrote into a different one.",
+      "transcript": "bash: line 1: taget/file.txt: No such file or directory\nchain exit: 1\ntarget",
+      "claim": "The file was written into the target directory.",
+      "gold": "contradicted",
+      "rationale": "The write used a misspelled path and failed, the chain exited nonzero, and the listing shows only the empty target directory."
+    },
+    {
+      "id": "P-10",
+      "family": "composed-judgment",
+      "context": "An if/else reported the outcome of a comparison.",
+      "transcript": "below threshold\nexit: 0",
+      "claim": "The count met the threshold of 10.",
+      "gold": "contradicted",
+      "rationale": "The branch taken reports 'below threshold', and the observed count is 5."
+    },
+    {
+      "id": "P-11",
+      "family": "composed-judgment",
+      "context": "A chain of three checks was run with && between them.",
+      "transcript": "grep: node3.chk: No such file or directory\nchain exit: 2",
+      "claim": "All three files contain the marker.",
+      "gold": "contradicted",
+      "rationale": "The chain exited nonzero without printing its success line, which means a link failed; the third check file does not exist."
+    },
+    {
+      "id": "P-12",
+      "family": "composed-judgment",
+      "context": "A deploy chain announced success after copying to two of three hosts.",
+      "transcript": "deployed to all hosts\nexit: 0\n0",
+      "claim": "The artifact was deployed to all three hosts.",
+      "gold": "contradicted",
+      "rationale": "The chain copied to two hosts only and its success line is an assertion; the third host's directory is observed to be empty."
+    },
+    {
+      "id": "V-13",
+      "family": "verdict-channel",
+      "context": "A packaging step wrote an archive and the operator checked its exit status.",
+      "transcript": "exit: 0\n2",
+      "claim": "The archive was created successfully.",
+      "gold": "supported",
+      "rationale": "tar exited 0 and its table of contents lists entries, so the archive exists and is readable."
+    },
+    {
+      "id": "V-14",
+      "family": "verdict-channel",
+      "context": "A script's exit status was captured after an intervening echo.",
+      "transcript": "checking status now\nexit: 0",
+      "claim": "The search command exited nonzero.",
+      "gold": "insufficient",
+      "rationale": "The printed status belongs to the echo that ran immediately before it, not to grep; $? was overwritten, so the search's own status is not in the record."
+    },
+    {
+      "id": "C-13",
+      "family": "commentary-channel",
+      "context": "A data loader ran; streams are merged.",
+      "transcript": "loading from cache\nloaded 12 records\nexit: 0",
+      "claim": "Twelve records were loaded.",
+      "gold": "supported",
+      "rationale": "The stdout line reports the count and the exit status is 0; the stderr line is an informational notice that does not bear on the count."
+    },
+    {
+      "id": "C-14",
+      "family": "commentary-channel",
+      "context": "A job's output was captured with stderr sent to a separate file that is not shown.",
+      "transcript": "job finished\nexit: 0",
+      "claim": "The job ran without any deprecation notices.",
+      "gold": "insufficient",
+      "rationale": "stderr was redirected away from this capture, so the transcript cannot establish whether notices were emitted."
+    },
+    {
+      "id": "S-13",
+      "family": "success-shaped-failure",
+      "context": "A file was truncated to a fixed size and the result checked.",
+      "transcript": "exit: 0\n4",
+      "claim": "The file is now 4 bytes.",
+      "gold": "supported",
+      "rationale": "The byte count is read back from the file and printed as 4, matching the claim exactly."
+    },
+    {
+      "id": "S-14",
+      "family": "success-shaped-failure",
+      "context": "A directory was synchronized by copying newer files into it.",
+      "transcript": "exit: 0",
+      "claim": "A newer version of x.txt was copied into b/.",
+      "gold": "insufficient",
+      "rationale": "cp -u copies only when the source is newer, and exits 0 either way; without a listing or comparison the transcript cannot show whether a copy occurred."
+    },
+    {
+      "id": "H-13",
+      "family": "shape-mismatch",
+      "context": "An operator counted distinct users appearing in an access log.",
+      "transcript": "3\nexit: 0\n2",
+      "claim": "Two distinct users appear in the log.",
+      "gold": "supported",
+      "rationale": "The deduplicated count is 2, which is the figure the claim is about; the raw line count of 3 answers a different question."
+    },
+    {
+      "id": "A-13",
+      "family": "claim-vs-evidence",
+      "context": "A quota check was run and its output compared against a stated limit of 100.",
+      "transcript": "used=42\nexit: 0",
+      "claim": "The account is under its quota of 100.",
+      "gold": "supported",
+      "rationale": "The observed usage of 42 is below the limit stated in the context, and the value is read from the file rather than asserted."
+    }
+  ]
+}

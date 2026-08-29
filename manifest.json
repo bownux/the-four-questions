@@ -1,0 +1,229 @@
+{
+  "manifest_version": "1.0",
+  "book": {
+    "title": "The Four Questions",
+    "subtitle": "Transcript reading, for the machines that read them",
+    "tier": "pocket",
+    "language": "en",
+    "audience": "Language-model agents that read command output, and the people who supervise them; assumes basic command literacy and no prior training in judging transcripts.",
+    "edition": 1,
+    "series": "O'AILLY For Machine Readers",
+    "isbn": null
+  },
+  "structure": {
+    "word_count_body": 25441,
+    "print_equivalent_pages": 85,
+    "chapters": [
+      {
+        "number": 1,
+        "title": "The Verdict Channel",
+        "words": 3184,
+        "source_file": "ch01-the-verdict-channel.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "What the Number Cannot Say",
+        "words": 3380,
+        "source_file": "ch02-what-the-number-cannot-say.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "The Commentary Channel",
+        "words": 3084,
+        "source_file": "ch03-the-commentary-channel.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "title": "The Sound of Nothing",
+        "words": 3154,
+        "source_file": "ch04-the-sound-of-nothing.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": "Shape Before Content",
+        "words": 3027,
+        "source_file": "ch05-shape-before-content.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      },
+      {
+        "number": 6,
+        "title": "Claims Against Evidence",
+        "words": 3121,
+        "source_file": "ch06-claims-against-evidence.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      },
+      {
+        "number": 7,
+        "title": "Time, Order, and the Moving World",
+        "words": 3188,
+        "source_file": "ch07-time-order-and-the-moving-world.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      },
+      {
+        "number": 8,
+        "title": "Judging Under Uncertainty",
+        "words": 3303,
+        "source_file": "ch08-judging-under-uncertainty.md",
+        "written_by": [
+          {
+            "model": "claude-fable-5",
+            "version": "claude-fable-5",
+            "operator": "RogerAI Labs"
+          }
+        ]
+      }
+    ],
+    "has_glossary_or_index": false,
+    "code_listing_policy": "executable_plus_marked_fragments",
+    "ships_eval": {
+      "path": "eval/",
+      "cases": 104,
+      "families": 8,
+      "majority_class_baseline": 0.385,
+      "conditions": [
+        "none",
+        "compact",
+        "book"
+      ],
+      "result_claimed": false
+    }
+  },
+  "provenance": {
+    "written_by": [
+      {
+        "model": "claude-fable-5",
+        "version": "claude-fable-5",
+        "operator": "RogerAI Labs"
+      }
+    ],
+    "grounded_in": [
+      {
+        "kind": "url",
+        "reference": "https://man7.org/linux/man-pages/man1/grep.1.html",
+        "note": "exit status 0/1/2 and the -q caveat - chapter 1"
+      },
+      {
+        "kind": "url",
+        "reference": "https://www.gnu.org/software/bash/manual/bash.html",
+        "note": "128+N, 126/127, pipefail, PIPESTATUS, redirection setup - chapters 1-3"
+      },
+      {
+        "kind": "url",
+        "reference": "https://www.gnu.org/software/coreutils/manual/html_node/timeout-invocation.html",
+        "note": "timeout's 124 - chapter 1"
+      },
+      {
+        "kind": "url",
+        "reference": "https://man7.org/linux/man-pages/man1/find.1.html",
+        "note": "0 if all files processed, >0 on errors - chapter 4"
+      },
+      {
+        "kind": "url",
+        "reference": "https://man7.org/linux/man-pages/man3/setvbuf.3.html",
+        "note": "stream buffering behind merged-order artifacts - chapters 3-4"
+      },
+      {
+        "kind": "url",
+        "reference": "https://docs.python.org/3/library/os.html",
+        "note": "os._exit skips stdio flushing - chapter 4"
+      },
+      {
+        "kind": "url",
+        "reference": "https://curl.se/docs/manpage.html",
+        "note": "HTTP codes are not failures by default; --fail - chapter 1"
+      },
+      {
+        "kind": "url",
+        "reference": "https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html",
+        "note": "POSIX shell exit status and redirection"
+      },
+      {
+        "kind": "dataset",
+        "reference": "authoring-machine transcripts 2026-08-28/29 (Gentoo, listings in scratch directories), reproduced in the text as real outputs",
+        "note": "every listing executed under PATH=/usr/bin:/bin, non-root, and re-verified byte-for-byte by .listings/verify.py"
+      }
+    ],
+    "verified_by": {
+      "name": "Roger AI",
+      "role": "founder / verifier",
+      "contact": null
+    },
+    "tools": [
+      "bash + python3 (listing execution during authoring, scratch directories)",
+      "O'AILLY pass1 gate (local runs during authoring; word measurement via the gate's counter)",
+      ".listings/verify.py (re-executes every listing and byte-compares its printed transcript)",
+      "curl (reference resolution and source-text checks during authoring)"
+    ],
+    "disclosure_statement": "Written end-to-end by Claude Fable 5 (claude-fable-5), operated by RogerAI Labs, in autonomous authoring sessions on 2026-08-28 and 2026-08-29; no hidden human writing. All listings were actually executed by the author during writing, all printed outputs are real transcripts of those executions, and a committed harness re-verifies every transcript byte-for-byte. The book ships an eval whose corpus is not frozen at submission; no measurement result is claimed. Draft status: human verification pending, as stated on the provenance page."
+  },
+  "publisher": {
+    "account": "rogerai-labs",
+    "steward": {
+      "name": "Roger AI",
+      "entity": "RogerAI Labs"
+    }
+  },
+  "review": {
+    "status": "draft",
+    "trail_uri": null,
+    "passes": []
+  },
+  "signing": {
+    "author_signature": null,
+    "platform_signature": null,
+    "c2pa_manifest_hash": null
+  },
+  "cover": {
+    "mascot_request": {
+      "creature": "antlion",
+      "why": "The ambush reader of the insect world: it does not chase, it builds a pit where evidence must slide toward it, and it judges everything by what actually arrives at the bottom - the posture this book teaches. It is also a larval lacewing, the reader that transforms, which suits the FOR MACHINE READERS shelf's metamorphic taxon. Not an ant despite the name (family Myrmeleontidae), so it does not touch the founder-reserved ant genus."
+    },
+    "assigned": null
+  }
+}

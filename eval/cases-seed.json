@@ -1,0 +1,101 @@
+{
+  "corpus": "the-four-questions seed cases v0 (8 misreading families + 2 supported controls)",
+  "captured": "2026-08-28, real transcripts, gate-style sandbox (PATH=/usr/bin:/bin)",
+  "verdicts": [
+    "supported",
+    "contradicted",
+    "insufficient"
+  ],
+  "cases": [
+    {
+      "id": "TFQ-01",
+      "family": "verdict-channel",
+      "context": "An operator verified that a dangerous setting is absent from app.conf.",
+      "transcript": "exit: 1",
+      "claim": "The grep command failed, so the check could not be performed.",
+      "gold": "contradicted",
+      "rationale": "Exit 1 from grep is the documented 'no lines selected' answer; the check ran and answered no. Failure would be exit 2."
+    },
+    {
+      "id": "TFQ-02",
+      "family": "success-shaped-failure",
+      "context": "An operator intended to change the retries setting to 5.",
+      "transcript": "sed exit: 0\n1:retries = 3",
+      "claim": "retries is now set to 5.",
+      "gold": "contradicted",
+      "rationale": "sed exited 0 but its pattern matched nothing; the read-back shows retries = 3 unchanged."
+    },
+    {
+      "id": "TFQ-03",
+      "family": "commentary-channel",
+      "context": "A conversion tool was run with the operator's usual flags; streams are merged in this transcript.",
+      "transcript": "deprecated flag --fast: ignored; behavior unchanged\nconverted 14 records\nexit: 0",
+      "claim": "The conversion ran cleanly with no warnings.",
+      "gold": "contradicted",
+      "rationale": "A deprecation warning is present in the merged output; 'no warnings' is false even though the run succeeded."
+    },
+    {
+      "id": "TFQ-04",
+      "family": "empty-output",
+      "context": "An operator checked whether the service logged errors during the incident window.",
+      "transcript": "0\ngrep exit: 1\n0",
+      "claim": "The service ran without logging any errors during the window.",
+      "gold": "insufficient",
+      "rationale": "The log is zero bytes: nothing at all was logged. Absence of ERROR lines in an empty file cannot distinguish 'no errors' from 'logging never happened'."
+    },
+    {
+      "id": "TFQ-05",
+      "family": "shape-mismatch",
+      "context": "An operator checked whether nginx is running on this host.",
+      "transcript": "luis     3853788  0.0  0.0   3452  1984 ?        S    20:10   0:00 grep nginx",
+      "claim": "nginx is running: the process appears in the ps output.",
+      "gold": "contradicted",
+      "rationale": "The only matching line is the grep process itself (the classic self-match); no nginx process is shown."
+    },
+    {
+      "id": "TFQ-06",
+      "family": "claim-vs-evidence",
+      "context": "The project's test module defines AuthTests (2 tests) and BillingTests (3 tests).",
+      "transcript": "----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK",
+      "claim": "The whole test suite passes.",
+      "gold": "insufficient",
+      "rationale": "Only the AuthTests selection ran (2 tests). The transcript supports 'auth tests pass', not a whole-suite claim."
+    },
+    {
+      "id": "TFQ-07",
+      "family": "staleness",
+      "context": "An incident began at 14:00 UTC on 2026-08-28 and is being investigated now. The operator checked whether app.conf changed during the incident.",
+      "transcript": "modified: 2026-08-27 09:00:00.000000000 -0700\nnow:      2026-08-29 03:07 UTC",
+      "claim": "app.conf was modified during the incident.",
+      "gold": "contradicted",
+      "rationale": "The file's mtime (2026-08-27 09:00 -0700 = 16:00 UTC) is nearly a full day before the incident window opened; mtime records the last modification, so no modification occurred inside the window."
+    },
+    {
+      "id": "TFQ-08",
+      "family": "composed-judgment",
+      "context": "A staged deployment chain: stage the file, verify its checksum, swap it live, announce.",
+      "transcript": "checksum mismatch on app.txt.new\nchain exit: 1\napp.txt.new\napp.txt.staged",
+      "claim": "The deployment completed; the new app.txt is live.",
+      "gold": "contradicted",
+      "rationale": "The chain stopped at the checksum step (exit 1); no live app.txt exists in the listing \u2014 only the staged copies."
+    },
+    {
+      "id": "TFQ-09",
+      "family": "verdict-channel",
+      "context": "An operator verified that the timeout setting in app.conf is 30.",
+      "transcript": "2:timeout = 30\nexit: 0",
+      "claim": "app.conf sets timeout to 30.",
+      "gold": "supported",
+      "rationale": "grep exit 0 with the matching line printed at its line number: the claim is directly evidenced."
+    },
+    {
+      "id": "TFQ-10",
+      "family": "composed-judgment",
+      "context": "A staged deployment chain: stage the file, verify it, swap it live, announce.",
+      "transcript": "deploy complete\nchain exit: 0\napp.txt\napp.txt.new\nv2",
+      "claim": "The deployment completed; the new app.txt is live.",
+      "gold": "supported",
+      "rationale": "Every link ran (chain exit 0), the announcement printed, the staged name is gone, and the live file reads back with the new content."
+    }
+  ]
+}
