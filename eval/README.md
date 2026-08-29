@@ -50,9 +50,11 @@ python3 scorer.py --cases cases.json ... --condition compact --out results-compa
 python3 scorer.py --cases cases.json ... --condition book    --out results-book.json
 ```
 
-Condition `book` requires `eval/book.md` — the concatenated chapters — which
-is produced at measurement time rather than committed, so the manuscript
-stays the single source. Three runs per condition (temperature 0 still varies
+Condition `book` requires `eval/book.md` — the concatenated chapters —
+which `build/make_book.py` generates and `.gitignore` keeps untracked, so
+the manuscript stays the single source. A committed copy would be a second
+text that drifts from the chapters the moment either is edited. Run
+`python3 build/make_book.py` before any `--condition book` run. Three runs per condition (temperature 0 still varies
 across servers); report mean ± range.
 
 ## Metrics

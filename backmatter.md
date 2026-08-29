@@ -124,47 +124,50 @@ resolved at submission.
    https://www.gnu.org/software/grep/manual/grep.html#Exit-Status
 3. GNU diffutils manual — diff exit status 0 (same), 1 (different), 2
    (trouble). https://www.gnu.org/software/diffutils/manual/html_node/Invoking-diff.html
-4. GNU Bash manual — exit status conventions: 128+N for fatal signal N, 127
+4. GNU diffutils manual — Invoking cmp: "An exit status of 0 means no
+   differences were found, 1 means some differences were found, and 2 means
+   trouble." https://www.gnu.org/software/diffutils/manual/html_node/Invoking-cmp.html
+5. GNU Bash manual — exit status conventions: 128+N for fatal signal N, 127
    for command-not-found, 126 for found-but-not-executable; pipeline status
    and `pipefail`; `PIPESTATUS`; `for` returns its last command's status;
    redirections performed as part of command setup; the `time` keyword's
    output on stderr. https://www.gnu.org/software/bash/manual/bash.html
-5. POSIX Shell Command Language — exit status and special parameters.
+6. POSIX Shell Command Language — exit status and special parameters.
    https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_08_02
-6. GNU coreutils manual, timeout — 124 on timeout, 125/126/127, 137 on kill.
+7. GNU coreutils manual, timeout — 124 on timeout, 125/126/127, 137 on kill.
    https://www.gnu.org/software/coreutils/manual/html_node/timeout-invocation.html
-7. find(1) — exits 0 if all files processed successfully, greater than 0 if
+8. find(1) — exits 0 if all files processed successfully, greater than 0 if
    errors occur. https://man7.org/linux/man-pages/man1/find.1.html
-8. GNU sed manual — script application semantics; a substitution matching
+9. GNU sed manual — script application semantics; a substitution matching
    nothing is not an error. https://www.gnu.org/software/sed/manual/sed.html
-9. GNU coreutils manual, rm — `-f` ignores nonexistent operands.
+10. GNU coreutils manual, rm — `-f` ignores nonexistent operands.
    https://www.gnu.org/software/coreutils/manual/html_node/rm-invocation.html
-10. GNU coreutils manual, mkdir — `-p` succeeds when the directory exists.
+11. GNU coreutils manual, mkdir — `-p` succeeds when the directory exists.
     https://www.gnu.org/software/coreutils/manual/html_node/mkdir-invocation.html
-11. GNU coreutils manual, head — keeping the beginning and discarding the
+12. GNU coreutils manual, head — keeping the beginning and discarding the
     rest, as a designed filter.
     https://www.gnu.org/software/coreutils/manual/html_node/head-invocation.html
-12. GNU coreutils manual, wc — `-l` counts newlines.
+13. GNU coreutils manual, wc — `-l` counts newlines.
     https://www.gnu.org/software/coreutils/manual/html_node/wc-invocation.html
-13. stat(1) — `-c` format directives used for labeled metadata output.
+14. stat(1) — `-c` format directives used for labeled metadata output.
     https://man7.org/linux/man-pages/man1/stat.1.html
-14. ps(1) — process listing and the `-o args=` output form.
+15. ps(1) — process listing and the `-o args=` output form.
     https://man7.org/linux/man-pages/man1/ps.1.html
-15. pgrep(1) — matches processes without matching itself.
+16. pgrep(1) — matches processes without matching itself.
     https://man7.org/linux/man-pages/man1/pgrep.1.html
-16. signal(7) — signal numbers behind the 128+N arithmetic (SIGTERM 15,
+17. signal(7) — signal numbers behind the 128+N arithmetic (SIGTERM 15,
     SIGKILL 9, SIGSEGV 11).
     https://man7.org/linux/man-pages/man7/signal.7.html
-17. setvbuf(3) — stream buffering modes; why stdout to a pipe is
+18. setvbuf(3) — stream buffering modes; why stdout to a pipe is
     block-buffered while stderr is not.
     https://man7.org/linux/man-pages/man3/setvbuf.3.html
-18. Python documentation, os — `os._exit` exits without flushing stdio
+19. Python documentation, os — `os._exit` exits without flushing stdio
     buffers or running cleanup handlers.
     https://docs.python.org/3/library/os.html
-19. curl manual — "By default, curl does not consider HTTP response codes to
+20. curl manual — "By default, curl does not consider HTTP response codes to
     indicate failure"; `--fail` fails with error code 22 for responses 400
     and above. https://curl.se/docs/manpage.html
-20. O'AILLY press catalog — the operator trilogy this volume reads against.
+21. O'AILLY press catalog — the operator trilogy this volume reads against.
     https://oailly.com/
 
 ## Boundaries (restated)
