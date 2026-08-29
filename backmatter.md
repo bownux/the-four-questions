@@ -21,7 +21,7 @@ species (diagnosis, warning, progress, notice, debug) and bind it to the
 command it narrates by content and label, never by adjacency. Diagnoses
 explain statuses; warnings survive success and cap confidence; a diagnosis
 inside a clean run may mean recovery, absorption, or a relayed child's
-voice, and only content distinguishes them.
+voice.
 
 **3. Does the shape match the question?** Name, in one sentence, the
 question the output actually answers. Compare its scope, frame, units, and
@@ -49,17 +49,43 @@ scope, missing residue, assertion-grade evidence, an unsupported bridge, or
 staleness. The third verdict is a finding, not a failure, and the report
 that carries it names the observation that would resolve it.
 
+## Glossary
+
+- **absence check** — asking what else would be present if the claim were true, and noticing it is not.
+- **adjacent answer** — a valid, parseable transcript about a neighboring question; fails the shape check for the claim under trial.
+- **assertion** — transcript text that someone (tool banner, operator echo) stated; evidence of stating, not of the stated fact.
+- **Brier score** — mean squared error of confidence-as-probability against correctness; calibration metric in the eval.
+- **bridge** — the unstated assumptions that turn an observation into a wider claim; must be cited or the verdict stays insufficient.
+- **claim-sizing** — matching the claim's quantifiers and scope to the transcript's actual scope.
+- **commentary channel** — stderr and merged-stream warnings/progress; chapter 3's surface.
+- **compact treatment** — the one-page distillation used as eval condition (b) beside full-book and no-treatment.
+- **contradicted** — verdict: the transcript is evidence the claim is false.
+- **escalation** — disciplined exit when insufficient cannot end the work: ask for evidence or hand a human the labeled chain.
+- **four questions** — status; stderr; shape; labeled content — in that order.
+- **inference** — a conclusion that requires a bridge from observation to claim.
+- **insufficient** — verdict: the transcript cannot settle the claim either way; a complete answer.
+- **observation** — a value the instrument reported directly in the bytes.
+- **re-verification trigger** — deploy, restart, failover, rotation, or similar event that voids pre-trigger present-tense claims.
+- **self-matching instrument** — a capture that counted the harness or scraper itself; a shape/provenance failure.
+- **shape** — instrument, target, unit, frame, provenance, truncation, scope — before content is read.
+- **staleness** — relation between the moment of reading and the moment the claim is about, when the gap admits relevant failure modes.
+- **supported** — verdict: the transcript is evidence the claim is true.
+- **trichotomy** — tools (grep, diff) that spend nonzero exits as answers, not only as failures.
+- **unit** — what a count counts (lines, records, bytes, events); part of shape.
+- **verdict channel** — the exit status integer; chapter 1's surface.
+
 ## The eval
 
 Design, thresholds, and run recipe: `eval/README.md`. Task: given (context,
 transcript, claim), emit a verdict and a 0–100 confidence. Corpus: 104
 cases, 12–14 per misreading family, every transcript real, held out from this
-book's worked examples by command line, fixture, and claim. Verdicts are 40
-contradicted, 33 supported, 31 insufficient, so the best single-verdict
-shortcut scores 0.385 and an oracle scores 1.000 — the floor and ceiling any
-result must sit between. Conditions: no-treatment, compact one-page
-distillation (`eval/compact.md`), full book in context; three runs each,
-mean ± range. Metrics: accuracy overall and per family, Brier score on
+book's worked examples by command line, fixture, and claim — enforced by
+`eval/build/check_holdout.py`, which exits nonzero on any collision.
+Verdicts are 40 contradicted, 33 supported, 31 insufficient, so the best
+single-verdict shortcut scores 0.385 and an oracle scores 1.000 — the floor
+and ceiling any result must sit between. Conditions: no-treatment, compact
+one-page distillation (`eval/compact.md`), full book in context; three runs
+each, mean ± range. Metrics: accuracy overall and per family, Brier score on
 confidence, headline delta (full-book − baseline) against the noise floor
 with the compact condition reported beside it. Proposed promotion
 thresholds: delta above the noise floor, and Brier under the full-book
@@ -94,52 +120,58 @@ resolved at submission.
 
 1. GNU grep manual — exit status 0/1/2 and the `-q` caveat.
    https://man7.org/linux/man-pages/man1/grep.1.html
-2. GNU grep manual (full) — `-c` counts selected lines, `-r`, `-i`, `-l`.
-   https://www.gnu.org/software/grep/manual/grep.html
+2. GNU grep manual — Exit Status section; `-c` counts selected lines.
+   https://www.gnu.org/software/grep/manual/grep.html#Exit-Status
 3. GNU diffutils manual — diff exit status 0 (same), 1 (different), 2
-   (trouble).
-   https://www.gnu.org/software/diffutils/manual/html_node/Invoking-diff.html
+   (trouble). https://www.gnu.org/software/diffutils/manual/html_node/Invoking-diff.html
 4. GNU Bash manual — exit status conventions: 128+N for fatal signal N, 127
    for command-not-found, 126 for found-but-not-executable; pipeline status
    and `pipefail`; `PIPESTATUS`; `for` returns its last command's status;
    redirections performed as part of command setup; the `time` keyword's
-   output on stderr.
-   https://www.gnu.org/software/bash/manual/bash.html
-5. POSIX Shell Command Language — exit status and redirection semantics.
-   https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html
+   output on stderr. https://www.gnu.org/software/bash/manual/bash.html
+5. POSIX Shell Command Language — exit status and special parameters.
+   https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_08_02
 6. GNU coreutils manual, timeout — 124 on timeout, 125/126/127, 137 on kill.
    https://www.gnu.org/software/coreutils/manual/html_node/timeout-invocation.html
 7. find(1) — exits 0 if all files processed successfully, greater than 0 if
-   errors occur.
-   https://man7.org/linux/man-pages/man1/find.1.html
+   errors occur. https://man7.org/linux/man-pages/man1/find.1.html
 8. GNU sed manual — script application semantics; a substitution matching
-   nothing is not an error.
-   https://www.gnu.org/software/sed/manual/sed.html
+   nothing is not an error. https://www.gnu.org/software/sed/manual/sed.html
 9. GNU coreutils manual, rm — `-f` ignores nonexistent operands.
    https://www.gnu.org/software/coreutils/manual/html_node/rm-invocation.html
 10. GNU coreutils manual, mkdir — `-p` succeeds when the directory exists.
     https://www.gnu.org/software/coreutils/manual/html_node/mkdir-invocation.html
-11. GNU coreutils manual, wc — `-l` counts newlines.
+11. GNU coreutils manual, head — keeping the beginning and discarding the
+    rest, as a designed filter.
+    https://www.gnu.org/software/coreutils/manual/html_node/head-invocation.html
+12. GNU coreutils manual, wc — `-l` counts newlines.
     https://www.gnu.org/software/coreutils/manual/html_node/wc-invocation.html
-12. stat(1) — `-c` format directives used for labeled metadata output.
+13. stat(1) — `-c` format directives used for labeled metadata output.
     https://man7.org/linux/man-pages/man1/stat.1.html
-13. ps(1) — process listing and the `-o args=` output form.
+14. ps(1) — process listing and the `-o args=` output form.
     https://man7.org/linux/man-pages/man1/ps.1.html
-14. pgrep(1) — matches processes without matching itself.
+15. pgrep(1) — matches processes without matching itself.
     https://man7.org/linux/man-pages/man1/pgrep.1.html
-15. signal(7) — signal numbers behind the 128+N arithmetic (SIGTERM 15,
+16. signal(7) — signal numbers behind the 128+N arithmetic (SIGTERM 15,
     SIGKILL 9, SIGSEGV 11).
     https://man7.org/linux/man-pages/man7/signal.7.html
-16. setvbuf(3) — stream buffering modes; why stdout to a pipe is
+17. setvbuf(3) — stream buffering modes; why stdout to a pipe is
     block-buffered while stderr is not.
     https://man7.org/linux/man-pages/man3/setvbuf.3.html
-17. Python documentation, os — `os._exit` exits without flushing stdio
+18. Python documentation, os — `os._exit` exits without flushing stdio
     buffers or running cleanup handlers.
     https://docs.python.org/3/library/os.html
-18. curl manual — "By default, curl does not consider HTTP response codes to
+19. curl manual — "By default, curl does not consider HTTP response codes to
     indicate failure"; `--fail` fails with error code 22 for responses 400
-    and above.
-    https://curl.se/docs/manpage.html
+    and above. https://curl.se/docs/manpage.html
+20. O'AILLY press catalog — the operator trilogy this volume reads against.
+    https://oailly.com/
+
+## Boundaries (restated)
+
+No claims about model internals; no claim of transfer beyond the measured
+transcript-judgment task; no claim that models enjoy reading; insufficient is
+never abolished; the eval measures this task only.
 
 ## Companion volumes
 

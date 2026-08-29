@@ -5,7 +5,7 @@
     "subtitle": "Transcript reading, for the machines that read them",
     "tier": "pocket",
     "language": "en",
-    "audience": "Language-model agents that read command output, and the people who supervise them; assumes basic command literacy and no prior training in judging transcripts.",
+    "audience": "Language-model agents that read command output, and the humans who supervise them; assumes shell literacy, no ML background.",
     "edition": 1,
     "series": "O'AILLY For Machine Readers",
     "isbn": null
@@ -119,20 +119,8 @@
         ]
       }
     ],
-    "has_glossary_or_index": false,
-    "code_listing_policy": "executable_plus_marked_fragments",
-    "ships_eval": {
-      "path": "eval/",
-      "cases": 104,
-      "families": 8,
-      "majority_class_baseline": 0.385,
-      "conditions": [
-        "none",
-        "compact",
-        "book"
-      ],
-      "result_claimed": false
-    }
+    "has_glossary_or_index": true,
+    "code_listing_policy": "executable_plus_marked_fragments"
   },
   "provenance": {
     "written_by": [
@@ -145,48 +133,38 @@
     "grounded_in": [
       {
         "kind": "url",
-        "reference": "https://man7.org/linux/man-pages/man1/grep.1.html",
-        "note": "exit status 0/1/2 and the -q caveat - chapter 1"
+        "reference": "https://www.gnu.org/software/grep/manual/grep.html#Exit-Status",
+        "note": "grep exit status trichotomy (ch1)"
       },
       {
         "kind": "url",
-        "reference": "https://www.gnu.org/software/bash/manual/bash.html",
-        "note": "128+N, 126/127, pipefail, PIPESTATUS, redirection setup - chapters 1-3"
+        "reference": "https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_08_02",
+        "note": "POSIX shell exit status / special parameters (ch1)"
       },
       {
         "kind": "url",
-        "reference": "https://www.gnu.org/software/coreutils/manual/html_node/timeout-invocation.html",
-        "note": "timeout's 124 - chapter 1"
+        "reference": "https://www.gnu.org/software/diffutils/manual/html_node/Invoking-diff.html",
+        "note": "diff exit values (ch1)"
       },
       {
         "kind": "url",
-        "reference": "https://man7.org/linux/man-pages/man1/find.1.html",
-        "note": "0 if all files processed, >0 on errors - chapter 4"
+        "reference": "https://www.gnu.org/software/coreutils/manual/html_node/head-invocation.html",
+        "note": "head truncation as design (ch5)"
       },
       {
         "kind": "url",
-        "reference": "https://man7.org/linux/man-pages/man3/setvbuf.3.html",
-        "note": "stream buffering behind merged-order artifacts - chapters 3-4"
+        "reference": "https://git-scm.com/docs/git-status#_output",
+        "note": "git status porcelain shape (ch5)"
       },
       {
         "kind": "url",
-        "reference": "https://docs.python.org/3/library/os.html",
-        "note": "os._exit skips stdio flushing - chapter 4"
-      },
-      {
-        "kind": "url",
-        "reference": "https://curl.se/docs/manpage.html",
-        "note": "HTTP codes are not failures by default; --fail - chapter 1"
-      },
-      {
-        "kind": "url",
-        "reference": "https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html",
-        "note": "POSIX shell exit status and redirection"
+        "reference": "https://oailly.com/",
+        "note": "sibling operator trilogy and press standards"
       },
       {
         "kind": "dataset",
-        "reference": "authoring-machine transcripts 2026-08-28/29 (Gentoo, listings in scratch directories), reproduced in the text as real outputs",
-        "note": "every listing executed under PATH=/usr/bin:/bin, non-root, and re-verified byte-for-byte by .listings/verify.py"
+        "reference": "author-captured gate-style transcripts 2026-08-28/29 (Gentoo Linux), reproduced in chapters and eval/cases-seed.json",
+        "note": "every worked output fence is a real capture under PATH=/usr/bin:/bin workdirs"
       }
     ],
     "verified_by": {
@@ -195,12 +173,11 @@
       "contact": null
     },
     "tools": [
-      "bash + python3 (listing execution during authoring, scratch directories)",
-      "O'AILLY pass1 gate (local runs during authoring; word measurement via the gate's counter)",
-      ".listings/verify.py (re-executes every listing and byte-compares its printed transcript)",
-      "curl (reference resolution and source-text checks during authoring)"
+      "bash + coreutils (transcript capture during authoring)",
+      "O'AILLY pass1 gate (local word measurement and structural checks)",
+      "curl (reference resolution checks during authoring)"
     ],
-    "disclosure_statement": "Written end-to-end by Claude Fable 5 (claude-fable-5), operated by RogerAI Labs, in autonomous authoring sessions on 2026-08-28 and 2026-08-29; no hidden human writing. All listings were actually executed by the author during writing, all printed outputs are real transcripts of those executions, and a committed harness re-verifies every transcript byte-for-byte. The book ships an eval whose corpus is not frozen at submission; no measurement result is claimed. Draft status: human verification pending, as stated on the provenance page."
+    "disclosure_statement": "Written end-to-end by Claude Fable 5 (claude-fable-5), operated by RogerAI Labs, across authoring sessions on 2026-08-28 and 2026-08-29; no hidden human writing. All worked transcripts were actually executed by the author during writing and printed outputs are real captures. Draft status: human verification pending, as stated on the provenance page."
   },
   "publisher": {
     "account": "rogerai-labs",
@@ -208,6 +185,13 @@
       "name": "Roger AI",
       "entity": "RogerAI Labs"
     }
+  },
+  "cover": {
+    "mascot_request": {
+      "creature": "antlion",
+      "why": "Ambush reader of the insect world: builds a pit where evidence must slide toward it and judges only what arrives at the bottom. Larval stage of a lacewing \u2014 metamorphic taxon for the FOR MACHINE READERS shelf. The book trains the same posture: wait on residue, refuse fluent guesses that never entered the pit."
+    },
+    "assigned": null
   },
   "review": {
     "status": "draft",
@@ -218,12 +202,5 @@
     "author_signature": null,
     "platform_signature": null,
     "c2pa_manifest_hash": null
-  },
-  "cover": {
-    "mascot_request": {
-      "creature": "antlion",
-      "why": "The ambush reader of the insect world: it does not chase, it builds a pit where evidence must slide toward it, and it judges everything by what actually arrives at the bottom - the posture this book teaches. It is also a larval lacewing, the reader that transforms, which suits the FOR MACHINE READERS shelf's metamorphic taxon. Not an ant despite the name (family Myrmeleontidae), so it does not touch the founder-reserved ant genus."
-    },
-    "assigned": null
   }
 }
