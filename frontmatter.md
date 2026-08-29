@@ -43,9 +43,10 @@ printed transcript is checked by a harness committed alongside the
 manuscript, which extracts each listing, re-runs it under gate conditions,
 and compares the result byte-for-byte against the printed output; listings
 whose transcripts would vary by machine — usernames, process ids, wall
-clocks, timezones — were rewritten until they did not, because a transcript
-a reader cannot reproduce is an assertion, which is the grade chapter 6
-spends its length demoting.
+clocks, timezones — were rewritten until they did not, and a second
+committed checker enforces that, because a transcript a reader cannot
+reproduce is an assertion, which is the grade chapter 6 spends its length
+demoting.
 
 Draft status is honest on every chapter header: human verification is
 pending, and nothing ships until the press's three-pass pipeline and a named

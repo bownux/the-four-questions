@@ -23,7 +23,11 @@ composing shell (the observer appearing in the observation — the incident is
 told in chapter 5, where it is the lesson); a metadata listing that printed
 the author's username and would not have reproduced under another account;
 and a timestamp listing whose output varied with the runner's timezone until
-the zone was pinned in the listing itself.
+the zone was pinned in the listing itself. A companion checker
+(`.listings/check_portable.py`) now enforces what those three fixes
+established: it scans every printed transcript for the authoring account's
+username, home or scratch paths, process ids, and non-UTC timezone offsets,
+and exits nonzero on a hit.
 
 **GROUNDED IN** the documented contracts of the tools whose behavior the
 book asserts — POSIX and GNU manual pages, plus the Python and curl
